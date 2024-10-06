@@ -1,4 +1,4 @@
-package com.project.clonecoding.ubereats.ui.theme
+package com.project.clonecoding.nike.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
