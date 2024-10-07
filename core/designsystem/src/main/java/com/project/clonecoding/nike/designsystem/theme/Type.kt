@@ -46,301 +46,268 @@ private val HelveticaNowTextFontFamily = FontFamily(
 
 val nikeTypography = NikeTypography(
     display2XlRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-3).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 38.4.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     display2XlMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 32.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-3).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 38.4.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     display2XlBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-3).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 38.4.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayXlRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-0.6).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 33.6.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayXlMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 28.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-0.6).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 33.6.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayXlBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 28.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-0.6).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 33.6.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayLgRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
-        lineHeight = 110.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 30.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayLgMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 28.sp,
-        lineHeight = 110.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 30.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayLgBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 28.sp,
-        lineHeight = 110.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 30.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayMdRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 28.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayMdMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 28.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displayMdBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 28.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displaySmRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displaySmMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     displaySmBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     text2XlRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     text2XlMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 26.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     text2XlBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXlRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 19.2.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXlMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXlBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        lineHeight = 120.sp,
-        letterSpacing = 0.em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 19.2.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textLgRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 150.sp,
-        letterSpacing = (-2.4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textLgMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 150.sp,
-        letterSpacing = (-2.4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textLgBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        lineHeight = 150.sp,
-        letterSpacing = (-2.4).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textMdRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-1).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textMdMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-1).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textMdBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
-        lineHeight = 120.sp,
-        letterSpacing = (-1).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 16.8.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textSmRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 12.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textSmMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 12.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textSmBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 12.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2.5).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 12.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXsRegular = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 10.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXsMedium = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 10.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 10.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
     textXsBold = TextStyle(
-        color = Color.Black,
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 10.sp,
-        lineHeight = 100.sp,
-        letterSpacing = (-2).em,
-        platformStyle = PlatformTextStyle(includeFontPadding = false)
+        lineHeight = 10.sp,
+        letterSpacing = 0.sp,
+        platformStyle = PlatformTextStyle(includeFontPadding = true)
     ),
 )
 
