@@ -1,4 +1,4 @@
-package com.project.clonecoding.data
+package com.project.clonecoding.nike.data
 
 import org.junit.Test
 

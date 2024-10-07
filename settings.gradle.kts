@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "UberEats"
+rootProject.name = "Nike"
 include(":app")
 include(":core:designsystem")
 include(":core:data")

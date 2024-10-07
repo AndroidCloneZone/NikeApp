@@ -1,4 +1,4 @@
-package com.project.clonecoding.domain
+package com.project.clonecoding.nike.designsystem
 
 import org.junit.Test
 

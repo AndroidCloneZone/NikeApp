@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.project.clonecoding.domain"
+    namespace = "com.project.clonecoding.nike.domain"
     compileSdk = 34
 
     defaultConfig {

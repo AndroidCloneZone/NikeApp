@@ -1,4 +1,4 @@
-package com.project.clonecoding.ubereats
+package com.project.clonecoding.nike
 
 import org.junit.Test
 

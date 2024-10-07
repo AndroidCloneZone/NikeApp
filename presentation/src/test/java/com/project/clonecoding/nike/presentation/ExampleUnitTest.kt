@@ -1,4 +1,4 @@
-package com.project.clonecoding.presentation
+package com.project.clonecoding.nike.presentation
 
 import org.junit.Test
 

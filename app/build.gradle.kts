@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.project.clonecoding.ubereats"
+    namespace = "com.project.clonecoding.nike"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.project.clonecoding.ubereats"
+        applicationId = "com.project.clonecoding.nike"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -50,6 +50,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
+    implementation(project(":presentation"))
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

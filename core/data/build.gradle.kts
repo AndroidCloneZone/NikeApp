@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.project.clonecoding.data"
+    namespace = "com.project.clonecoding.nike.data"
     compileSdk = 34
 
     defaultConfig {
@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
