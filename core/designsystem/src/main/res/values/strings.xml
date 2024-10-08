@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_code">Code</string>
+    <string name="hint_date_of_birth">Date Of Birth</string>
+
+    <string name="label_password_1">Minimum of 8 characters</string>
+    <string name="label_password_2">Uppercase, lowercase letters and one number</string>
+    <string name="label_date_of_birth">Get a Nike Member Reward on your birthday.</string>
+</resources>
