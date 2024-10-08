@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -96,13 +98,35 @@ fun BaseButton(
     }
 }
 
+@Composable
+fun BaseIconButton(
+    @DrawableRes iconId: Int,
+    style: ButtonStyle = ButtonStyle.FillLight,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .background(style.enabledColors.backgroundColor)
+    ) {
+        Icon(
+            modifier = Modifier.align(Alignment.Center),
+            tint = style.enabledColors.iconColor,
+            painter = painterResource(id = iconId),
+            contentDescription = "base_icon_button_icon"
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun BaseButtonPreview(){
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color(0xffeeeeee))
-        .padding(20.dp)) {
+fun BaseButtonPreview() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xffeeeeee))
+            .padding(20.dp)
+    ) {
         BaseButton(
             text = "Join Us",
             modifier = Modifier.fillMaxWidth(),
@@ -113,7 +137,7 @@ fun BaseButtonPreview(){
 
         BaseButton(
             text = "Join Us",
-            startIcon = R.drawable.ic_sample_camera,
+            startIcon = R.drawable.ic_sample_camera_24,
             modifier = Modifier.fillMaxWidth(),
             onClick = {}
         )
@@ -122,7 +146,7 @@ fun BaseButtonPreview(){
 
         BaseButton(
             text = "Join Us",
-            endIcon = R.drawable.ic_sample_camera,
+            endIcon = R.drawable.ic_sample_camera_24,
             modifier = Modifier.fillMaxWidth(),
             onClick = {}
         )
@@ -142,7 +166,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     onClick = {}
                 )
 
@@ -150,7 +174,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.FillDark,
                     onClick = {}
                 )
@@ -159,7 +183,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.EmptyLight,
                     onClick = {}
                 )
@@ -168,7 +192,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.EmptyDark,
                     onClick = {}
                 )
@@ -185,7 +209,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     enabled = false,
                     onClick = {}
                 )
@@ -194,7 +218,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.FillDark,
                     enabled = false,
                     onClick = {}
@@ -204,7 +228,7 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.EmptyLight,
                     enabled = false,
                     onClick = {}
@@ -214,12 +238,27 @@ fun BaseButtonPreview(){
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera,
+                    endIcon = R.drawable.ic_sample_camera_24,
                     style = ButtonStyle.EmptyDark,
                     enabled = false,
                     onClick = {}
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row {
+            BaseIconButton(
+                iconId = R.drawable.ic_sample_eye_24,
+                modifier = Modifier.size(46.dp)
+            )
+
+            BaseIconButton(
+                iconId = R.drawable.ic_sample_eye_24,
+                style = ButtonStyle.FillDark,
+                modifier = Modifier.size(46.dp)
+            )
         }
     }
 }
