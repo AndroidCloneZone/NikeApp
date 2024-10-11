@@ -4,6 +4,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_code">Code</string>
     <string name="hint_date_of_birth">Date Of Birth</string>
+    <string name="hint_card_input">Enter Credit Card Number</string>
 
     <string name="label_password_1">Minimum of 8 characters</string>
     <string name="label_password_2">Uppercase, lowercase letters and one number</string>

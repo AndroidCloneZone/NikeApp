@@ -71,16 +71,50 @@ object CardRegex {
     }
 
     /**
-     * 카트 종류에 따른 자리수를 반환한다
+     * 카트 종류에 따른 번호 자리수를 반환한다
      * @param cardType 카드 종류, nullable
      * @return 자리수 반환, nullable
      */
-    fun getCardTypeDigit(cardType: CardType?): Int?{
+    fun getCardTypeNumberDigit(cardType: CardType?): Int{
         return when(cardType){
-            null -> null
             CardType.AmexCard -> 15
             CardType.DinersclubCard -> 14
             else -> 16
         }
+    }
+
+    /**
+     * 카드 종류에 따라 포메팅 된 카드 번호 형식을 반환한다
+     */
+    fun getFormattedCardNumber(cardNumber: String, cardType: CardType? = null): String{
+        val str = StringBuilder()
+        val numLength = cardNumber.length
+
+        when(cardType){
+            // Amex: xxxx-xxxxxxx-xxxxx
+            // DinersclubCard: xxxx-xxxxxxx-xxxx
+            // 앞부분인 xxxx-xxxxxx 형식은 동일하므로, 4-6-[4,5] 형식으로 처리될 수 있도록 함
+            CardType.AmexCard, CardType.DinersclubCard -> {
+                if(numLength <= 4){
+                    str.append(cardNumber.substring(0 until numLength))
+                }else{
+                    str.append(cardNumber.substring(0 until 4))
+                    str.append("-")
+                    if(numLength <= 10){
+                        str.append(cardNumber.substring(4 until numLength))
+                    }else{
+                        str.append(cardNumber.substring(4 until 10))
+                        str.append("-")
+                        str.append(cardNumber.substring(10 until numLength))
+                    }
+                }
+            }
+            // xxxx-xxxx-xxxx-xxxx
+            else -> {
+                str.append(cardNumber.chunked(4).joinToString("-"))
+            }
+        }
+
+        return str.toString()
     }
 }

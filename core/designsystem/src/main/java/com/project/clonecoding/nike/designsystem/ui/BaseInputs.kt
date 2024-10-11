@@ -2,8 +2,12 @@ package com.project.clonecoding.nike.designsystem.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,8 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -23,24 +30,35 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.project.clonecoding.nike.common.Regex
+import com.project.clonecoding.nike.common.AccountRegex
+import com.project.clonecoding.nike.common.CardRegex
+import com.project.clonecoding.nike.common.data.CardType
 import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
-import java.util.regex.Pattern
 
 /**
  *
@@ -50,9 +68,10 @@ import java.util.regex.Pattern
  * 테두리가 있는 Base Input
  * state와 관련된 모든 것들은 BaseInput을 사용하는 외부에서 관리되도록 해야함.
  * labelContent와 iconClick을 주입받도록 함.
+ * @author 이유호
  * @param value 입력되는 값, Required
  * @param hint placeHolder에 들어가는 값, default: emptyString
- * @param iconId icon drawable id, default: null
+ * @param type 사용할 타입, default: OutlinedInputType.Text
  * @param hintEffect placeHolder가 좌측 상단으로 올라오는 효과 사용 여부, default: true
  * @param enabled 사용 여부, default = true
  * @param isError 에러 여부, default = false
@@ -109,7 +128,6 @@ fun BaseOutlinedInput(
                                     Modifier
                                 }
                             ),
-                        tint = Color.Black,
                         painter = painterResource(id = iconId),
                         contentDescription = "base_outline_input_icon"
                     )
@@ -148,9 +166,9 @@ fun BaseOutlinedInput(
                 unfocusedBorderColor = Color(0xff767676),
                 disabledBorderColor = Color(0xff767676).copy(alpha = 0.7f),
                 errorBorderColor = Color(0xffca462a),
-                focusedTrailingIconColor = Color(0xff767676),
-                unfocusedTrailingIconColor = Color(0xff767676),
-                disabledTrailingIconColor = Color(0xff767676).copy(alpha = 0.7f),
+                focusedTrailingIconColor = Color.Black,
+                unfocusedTrailingIconColor = Color.Black,
+                disabledTrailingIconColor = Color.Black.copy(alpha = 0.7f),
                 errorTrailingIconColor = Color(0xffca462a),
                 focusedLabelColor = Color(0xff767676),
                 unfocusedLabelColor = Color(0xff767676),
@@ -172,16 +190,16 @@ fun BaseOutlinedInput(
             when (type) {
                 OutlinedInputType.SignupPw -> {
                     // 조건1
-                    val (c1Icon, c1Color) = if(value.length >= 8){
+                    val (c1Icon, c1Color) = if (value.length >= 8) {
                         Pair(Icons.Default.Check, Color(0xff32862b))
-                    }else{
+                    } else {
                         Pair(Icons.Default.Close, Color(0xff767676))
                     }
 
                     // 조건2
-                    val (c2Icon, c2Color) = if(Regex.checkPasswordRegex(value)){
+                    val (c2Icon, c2Color) = if (AccountRegex.checkPasswordRegex(value)) {
                         Pair(Icons.Default.Check, Color(0xff32862b))
-                    }else{
+                    } else {
                         Pair(Icons.Default.Close, Color(0xff767676))
                     }
                     Column(modifier = Modifier.padding(horizontal = 11.dp, vertical = 6.dp)) {
@@ -256,6 +274,7 @@ fun BaseFormDropdown(
 
 /**
  * 일반 텍스트 Base Input
+ * @author 이유호
  * @param value 입력되는 값, Required
  * @param title 타이틀, default: emptyString
  * @param hint placeHolder에 들어가는 값, default: emptyString
@@ -312,14 +331,246 @@ fun BaseFormTextFiled(
     }
 }
 
+
+/**
+ * 카드 정보를 입력하는 BaseInput
+ * @author 이유호
+ * @param cardNumber 카드 번호, Required
+ * @param cardYM 카드 유효기간 (MM/YY), Required
+ * @param cardCvc 카드 CVC 번호, Required
+ * @param hint 아무 입력이 없을 때 보여주는 placeholder text
+ * @param modifier Modifier
+ * @param onNumberChanged 카드번호가 변경될 때 수행, Required
+ * @param onYMChanged 카드 유효기간이 변경될 때 수행, Required
+ * @param onCvcChanged 카드 CVC 번호가 변경될 때 수행, Required
+ * @param onCameraClick 카메라 버튼을 클릭했을 때 수행, Required
+ */
 @Composable
 fun BaseCardInput(
-    cardValue: String = "",
-    hint: String = "Enter Credit Card Number"
+    cardNumber: String,
+    cardYM: String,
+    cardCvc: String,
+    hint: String = stringResource(id = R.string.hint_card_input),
+    modifier: Modifier = Modifier,
+    onNumberChanged: (String) -> Unit,
+    onYMChanged: (String) -> Unit,
+    onCvcChanged: (String) -> Unit,
+    onCameraClick: () -> Unit
 ) {
+    val frontNumber = if (cardNumber.length > 4) cardNumber.substring(0 until 4) else cardNumber
+    val cardType = CardRegex.getMatchedCardType(cardNumber = frontNumber)
+    val cardNumberDigit = CardRegex.getCardTypeNumberDigit(cardType)
+    var formattedCardNumber = remember(cardNumber) {
+        val fcnText = CardRegex.getFormattedCardNumber(
+            cardNumber = cardNumber,
+            cardType = cardType
+        )
+        mutableStateOf(
+            TextFieldValue(
+                text = fcnText,
+                selection = TextRange(fcnText.length)
+            )
+        )
+    }
 
+    var formattedYM = remember(cardYM) {
+        val fcyText = if (cardYM.length > 2) {
+            cardYM.chunked(2).joinToString("/")
+        } else {
+            cardYM
+        }
+        mutableStateOf(
+            TextFieldValue(
+                text = fcyText,
+                selection = TextRange(fcyText.length)
+            )
+        )
+    }
+
+    val cardId = when (cardType) {
+        CardType.AmexCard -> R.drawable.ic_payment_amex
+        CardType.DinersclubCard -> R.drawable.ic_payment_dinersclub
+        CardType.DiscoverCard -> R.drawable.ic_payment_discover
+        CardType.JcbCard -> R.drawable.ic_payment_jcb
+        CardType.MaestroCard -> R.drawable.ic_payment_maestro
+        CardType.MasterCard -> R.drawable.ic_payment_mastercard
+        CardType.UnionpayCard -> R.drawable.ic_payment_unionpay
+        CardType.VisaCard -> R.drawable.ic_payment_visa
+        else -> null
+    }
+
+    val numFocusRequester = remember { FocusRequester() }
+    val mmyyFocusRequester = remember { FocusRequester() }
+    val cvcFocusRequester = remember { FocusRequester() }
+    var currNumFocus by remember { mutableStateOf(false) }
+    var currMmyyFocus by remember { mutableStateOf(false) }
+    var currCvcFocus by remember { mutableStateOf(false) }
+    var numFocus by remember { mutableStateOf(false) }
+    var mmyyFocus by remember { mutableStateOf(false) }
+    var cvcFocus by remember { mutableStateOf(false) }
+
+    LaunchedEffect(numFocus, mmyyFocus, cvcFocus) {
+        if (numFocus) {
+            numFocusRequester.requestFocus()
+            numFocus = false
+        }
+        if (mmyyFocus) {
+            mmyyFocusRequester.requestFocus()
+            mmyyFocus = false
+        }
+        if (cvcFocus) {
+            cvcFocusRequester.requestFocus()
+            cvcFocus = false
+        }
+    }
+
+    val boxBorderColor = if(currNumFocus || currMmyyFocus || currCvcFocus){
+        Color.Black
+    }else{
+        Color(0xffcdcdcd)
+    }
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(2.dp))
+            .border(width = 1.dp, shape = RoundedCornerShape(2.dp), color = boxBorderColor)
+            .background(Color.White)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth().clickable {
+                    numFocus = true
+                }
+                .padding(horizontal = 10.dp, vertical = 12.dp),
+        ) {
+            if (cardNumber.isEmpty() && !currNumFocus) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    text = hint,
+                    style = nikeTypography.textMdRegular,
+                    color = Color(0xff767676)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterStart),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Box(modifier = Modifier.size(43.5.dp, 29.dp)) {
+                    if (cardId != null) {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = cardId),
+                            contentDescription = "BaseCardInputImg"
+                        )
+                    }
+                }
+                // 카드 번호
+                BasicTextField(
+                    modifier = Modifier
+                        .focusRequester(numFocusRequester).onFocusChanged {
+                            currNumFocus = it.isFocused
+                        },
+                    value = formattedCardNumber.value,
+                    textStyle = nikeTypography.textMdRegular,
+                    maxLines = 1,
+                    onValueChange = { newValue ->
+                        val inputValue = newValue.text.split("-").joinToString("")
+                        if (inputValue.length <= cardNumberDigit) {
+                            onNumberChanged(inputValue)
+                            if (inputValue.length == cardNumberDigit) {
+                                mmyyFocus = true
+                            }
+                        }
+                    },
+                )
+
+                // 카드 유효기간(MM/YY)
+                if (cardNumber.length == cardNumberDigit) {
+                    Box(modifier = Modifier.width(50.dp)) {
+                        if (cardYM.isEmpty()) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = "MM/YY",
+                                style = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
+                                color = Color(0xff767676)
+                            )
+                        }
+
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(mmyyFocusRequester).onFocusChanged {
+                                    currMmyyFocus = it.isFocused
+                                },
+                            value = formattedYM.value,
+                            textStyle = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
+                            maxLines = 1,
+                            onValueChange = { newValue ->
+                                val inputValue = newValue.text.split("/").joinToString("")
+                                if (inputValue.length <= 4) {
+                                    onYMChanged(inputValue)
+                                    if (inputValue.length == 4) {
+                                        cvcFocus = true
+                                    }
+                                }
+                            }
+                        )
+                    }
+
+                    Box(modifier = Modifier.width(30.dp)) {
+                        if (cardCvc.isEmpty()) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = "CVC",
+                                style = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
+                                color = Color(0xff767676)
+                            )
+                        }
+
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(cvcFocusRequester).onFocusChanged {
+                                    currCvcFocus = it.isFocused
+                                },
+                            value = cardCvc,
+                            textStyle = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
+                            maxLines = 1,
+                            onValueChange = { newValue ->
+                                if (newValue.length <= 3) {
+                                    onCvcChanged(newValue)
+                                }
+                            }
+                        )
+                    }
+                } else {
+                    Box(modifier = Modifier.width(50.dp))
+                    Box(modifier = Modifier.width(30.dp))
+                }
+
+                Icon(
+                    modifier = Modifier.clickable {
+                        onCameraClick()
+                    },
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_sample_camera_24),
+                    contentDescription = "CardCamera"
+                )
+            }
+        }
+    }
 }
 
+/**
+ * 긴 텍스트를 입력하는 Base Input
+ * @author 이유호
+ * @param value 입력되는 값, Required
+ * @param title 타이틀, default: emptyString
+ * @param hint placeholder text, default: emptyString
+ * @param maxLength 최대 글자수, default: 150
+ * @param modifier Modifier
+ * @param onValueChanged 텍스트가 바뀔 때 수행될 작업, Required
+ */
 @Composable
 fun BaseTextArea(
     value: String,
@@ -389,54 +640,13 @@ fun BaseTextArea(
 @Preview(showBackground = true)
 @Composable
 fun BaseInputsPreview() {
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
+            .verticalScroll(scrollState),
     ) {
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.Text,
-            value = "",
-            onValueChanged = {}
-        )
-
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.Email,
-            value = "",
-            onValueChanged = {}
-        )
-
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.Pw,
-            value = "",
-            onValueChanged = {}
-        )
-
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.SignupPw,
-            value = "",
-            onValueChanged = {}
-        )
-
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.Code,
-            value = "",
-            onValueChanged = {}
-        )
-
-        BaseOutlinedInput(
-            modifier = Modifier.fillMaxWidth(),
-            type = OutlinedInputType.Birth,
-            value = "",
-            onValueChanged = {}
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
 
         BaseFormTextFiled(
             modifier = Modifier.fillMaxWidth(),
@@ -448,14 +658,35 @@ fun BaseInputsPreview() {
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        BaseTextArea(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            title = "Title",
-            value = "",
-            hint = "Postal code",
-            onValueChanged = {}
+        var cardNum by remember {
+            mutableStateOf("")
+        }
+
+        var cardMmyy by remember {
+            mutableStateOf("")
+        }
+
+        var cardCvc by remember {
+            mutableStateOf("")
+        }
+
+        BaseCardInput(
+            cardNumber = cardNum,
+            cardYM = cardMmyy,
+            cardCvc = cardCvc,
+            modifier = Modifier.fillMaxWidth(),
+            onNumberChanged = { newNumber ->
+                cardNum = newNumber
+            },
+            onYMChanged = { newYM ->
+                cardMmyy = newYM
+            },
+            onCvcChanged = { newCvc ->
+                cardCvc = newCvc
+            },
+            onCameraClick = {
+
+            }
         )
     }
 }
