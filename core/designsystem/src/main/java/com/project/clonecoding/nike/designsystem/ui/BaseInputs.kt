@@ -25,6 +25,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -60,9 +64,6 @@ import com.project.clonecoding.nike.common.data.CardType
 import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
 
-/**
- *
- */
 
 /**
  * 테두리가 있는 Base Input
@@ -263,13 +264,96 @@ fun BaseOutlinedInput(
     }
 }
 
+/**
+ * 드롭다운 Base Input
+ * @author 이유호
+ * @param 타이틀, default: emptyString
+ * @param hint placeholder text, default: emptyString
+ * @param selectedItem 현재 선택된 아이템, default: null
+ * @param itemList 드롭다운 목록에 보여줄 리스트, default: emptyList
+ * @param modifier Modifier
+ * @param onItemSelected 드롭다운 아이템을 선택했을 때 수행할 작업, Required
+ */
 @Composable
 fun BaseFormDropdown(
-    title: String? = null,
+    title: String = "",
     hint: String = "",
-    onItemSelected: (Int) -> Unit
+    selectedItem: String? = null,
+    itemList: List<String> = listOf(),
+    modifier: Modifier = Modifier,
+    onItemSelected: (Int, String) -> Unit
 ) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
 
+    Column {
+        if (title.isNotEmpty()) {
+            Text(text = title, style = nikeTypography.textSmRegular, color = Color(0xff767676))
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+        Row(
+            modifier = modifier
+                .clip(RoundedCornerShape(2.dp))
+                .border(
+                    width = 1.dp,
+                    shape = RoundedCornerShape(2.dp),
+                    color = Color(0xffcdcdcd)
+                )
+                .background(Color.White)
+                .clickable {
+                    expanded = true
+                }
+                .padding(horizontal = 10.dp, vertical = 15.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (selectedItem == null) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = hint,
+                    style = nikeTypography.textMdRegular,
+                    color = Color(0xffbababa)
+                )
+            } else {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = selectedItem,
+                    style = nikeTypography.textMdRegular,
+                    color = Color.Black
+                )
+            }
+
+            val icon =
+                if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown
+            Icon(
+                imageVector = icon,
+                tint = Color.Black,
+                contentDescription = "BaseFormDropdownArrow"
+            )
+        }
+
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White),
+        ) {
+            itemList.forEachIndexed { index, item ->
+                DropdownMenuItem(
+                    onClick = {
+                        onItemSelected(index, item)
+                        expanded = false
+                    }, text = {
+                        Text(
+                            text = item,
+                            color = Color.Black,
+                            style = nikeTypography.textMdRegular
+                        )
+                    }
+                )
+            }
+        }
+    }
 }
 
 /**
@@ -424,9 +508,9 @@ fun BaseCardInput(
         }
     }
 
-    val boxBorderColor = if(currNumFocus || currMmyyFocus || currCvcFocus){
+    val boxBorderColor = if (currNumFocus || currMmyyFocus || currCvcFocus) {
         Color.Black
-    }else{
+    } else {
         Color(0xffcdcdcd)
     }
     Box(
@@ -437,7 +521,8 @@ fun BaseCardInput(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth().clickable {
+                .fillMaxWidth()
+                .clickable {
                     numFocus = true
                 }
                 .padding(horizontal = 10.dp, vertical = 12.dp),
@@ -468,7 +553,8 @@ fun BaseCardInput(
                 // 카드 번호
                 BasicTextField(
                     modifier = Modifier
-                        .focusRequester(numFocusRequester).onFocusChanged {
+                        .focusRequester(numFocusRequester)
+                        .onFocusChanged {
                             currNumFocus = it.isFocused
                         },
                     value = formattedCardNumber.value,
@@ -500,7 +586,8 @@ fun BaseCardInput(
                         BasicTextField(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .focusRequester(mmyyFocusRequester).onFocusChanged {
+                                .focusRequester(mmyyFocusRequester)
+                                .onFocusChanged {
                                     currMmyyFocus = it.isFocused
                                 },
                             value = formattedYM.value,
@@ -531,7 +618,8 @@ fun BaseCardInput(
                         BasicTextField(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .focusRequester(cvcFocusRequester).onFocusChanged {
+                                .focusRequester(cvcFocusRequester)
+                                .onFocusChanged {
                                     currCvcFocus = it.isFocused
                                 },
                             value = cardCvc,
@@ -687,6 +775,23 @@ fun BaseInputsPreview() {
             onCameraClick = {
 
             }
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        var selectedItem by remember {
+            mutableStateOf<String?>(null)
+        }
+
+        BaseFormDropdown(
+            title = "Title",
+            hint = "Postal Code",
+            selectedItem = selectedItem,
+            itemList = listOf("11", "22", "33"),
+            modifier = Modifier.fillMaxWidth(),
+            onItemSelected = { idx, item ->
+                selectedItem = item
+            },
         )
     }
 }
