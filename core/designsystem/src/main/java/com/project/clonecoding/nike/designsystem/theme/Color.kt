@@ -17,15 +17,14 @@ val white = Color(0xFFFFFFFF)
 val black = Color(0xFF000000)
 
 //Gray
-val gray100 = Color(0xFFf8f8f8)
+val gray100 = Color(0xFFF6F6F6)
 val gray200 = Color(0xFFE4E4E4)
 val gray300 = Color(0xFFCDCDCD)
 val gray400 = Color(0xFFBABABA)
 val gray500 = Color(0xFF8C8C8C)
 val gray600 = Color(0xFF767676)
 val gray700 = Color(0xFF57595B)
-val gray800 = Color(0xFF404040)
-val gray900 = Color(0xFF28292A)
+val gray800 = Color(0xFF28292A)
 
 //Success
 val success100 = Color(0xFFCFF2D8)
