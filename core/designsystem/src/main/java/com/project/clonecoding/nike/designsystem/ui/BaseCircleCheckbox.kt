@@ -29,7 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.black
-import com.project.clonecoding.nike.designsystem.theme.gray500
+import com.project.clonecoding.nike.designsystem.theme.gray100
+import com.project.clonecoding.nike.designsystem.theme.gray300
 import com.project.clonecoding.nike.designsystem.theme.white
 
 /**
@@ -172,12 +173,12 @@ sealed class CircleCheckboxStyle(
 ) {
     object Default : CircleCheckboxStyle(
         checkedColors = CircleCheckboxAttrColors(white, black, black, Color.Transparent),
-        uncheckedColors = CircleCheckboxAttrColors(Color.Transparent, gray500, white, Color.Transparent)
+        uncheckedColors = CircleCheckboxAttrColors(Color.Transparent, gray300, white, Color.Transparent)
     )
 
     object WithRipple : CircleCheckboxStyle(
-        checkedColors = CircleCheckboxAttrColors(white, black, black, black),
-        uncheckedColors = CircleCheckboxAttrColors(Color.Transparent, gray500, white, black)
+        checkedColors = CircleCheckboxAttrColors(white, black, black, gray100),
+        uncheckedColors = CircleCheckboxAttrColors(Color.Transparent, gray300, white, gray100)
     )
 }
 

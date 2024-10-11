@@ -31,7 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.black
-import com.project.clonecoding.nike.designsystem.theme.gray500
+import com.project.clonecoding.nike.designsystem.theme.gray100
+import com.project.clonecoding.nike.designsystem.theme.gray300
 import com.project.clonecoding.nike.designsystem.theme.white
 
 /**
@@ -188,13 +189,13 @@ sealed class CheckboxStyle(
     // 일반 스타일 (리플 없음)
     object Default : CheckboxStyle(
         checkedColors = CheckboxAttrColors(white, black, black, Color.Transparent),
-        uncheckedColors = CheckboxAttrColors(Color.Transparent, gray500, white, Color.Transparent)
+        uncheckedColors = CheckboxAttrColors(Color.Transparent, gray300, white, Color.Transparent)
     )
 
     // 리플 효과가 있는 스타일
     object WithRipple : CheckboxStyle(
-        checkedColors = CheckboxAttrColors(white, black, black, black),
-        uncheckedColors = CheckboxAttrColors(Color.Transparent, gray500, white, black)
+        checkedColors = CheckboxAttrColors(white, black, black, gray100),
+        uncheckedColors = CheckboxAttrColors(Color.Transparent, gray300, white, gray100)
     )
 }
 
