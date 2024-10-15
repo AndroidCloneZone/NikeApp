@@ -302,7 +302,9 @@ fun BaseFormDropdown(
                 )
                 .background(Color.White)
                 .clickable {
-                    expanded = true
+                    if(itemList.isNotEmpty()){
+                        expanded = !expanded
+                    }
                 }
                 .padding(horizontal = 10.dp, vertical = 15.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -332,25 +334,26 @@ fun BaseFormDropdown(
             )
         }
 
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.background(Color.White),
-        ) {
-            itemList.forEachIndexed { index, item ->
-                DropdownMenuItem(
-                    onClick = {
-                        onItemSelected(index, item)
-                        expanded = false
-                    }, text = {
-                        Text(
-                            text = item,
-                            color = Color.Black,
-                            style = nikeTypography.textMdRegular
-                        )
-                    }
-                )
+        if(itemList.isNotEmpty()){
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.background(Color.White),
+            ) {
+                itemList.forEachIndexed { index, item ->
+                    DropdownMenuItem(
+                        onClick = {
+                            onItemSelected(index, item)
+                            expanded = false
+                        }, text = {
+                            Text(
+                                text = item,
+                                color = Color.Black,
+                                style = nikeTypography.textMdRegular
+                            )
+                        }
+                    )
+                }
             }
         }
     }
@@ -787,7 +790,7 @@ fun BaseInputsPreview() {
             title = "Title",
             hint = "Postal Code",
             selectedItem = selectedItem,
-            itemList = listOf("11", "22", "33"),
+            itemList = listOf("11","12","13"),
             modifier = Modifier.fillMaxWidth(),
             onItemSelected = { idx, item ->
                 selectedItem = item
