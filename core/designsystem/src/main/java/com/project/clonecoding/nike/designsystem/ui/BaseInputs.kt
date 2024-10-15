@@ -198,7 +198,7 @@ fun BaseOutlinedInput(
                     }
 
                     // 조건2
-                    val (c2Icon, c2Color) = if (AccountRegex.checkPasswordRegex(value)) {
+                    val (c2Icon, c2Color) = if (AccountRegex.isPasswordValid(value)) {
                         Pair(Icons.Default.Check, Color(0xff32862b))
                     } else {
                         Pair(Icons.Default.Close, Color(0xff767676))
