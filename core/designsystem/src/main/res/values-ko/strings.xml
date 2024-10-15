@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_email">이메일</string>
+    <string name="hint_password">패스워드</string>
+    <string name="hint_code">인증번호</string>
+    <string name="hint_date_of_birth">생년월일</string>
+    <string name="hint_card_input">카드 번호를 입력해주세요.</string>
+
+    <string name="label_password_1">최소 8자</string>
+    <string name="label_password_2">대문자, 소문자 및 숫자 1개</string>
+    <string name="label_date_of_birth">생일에 나이키 회원 보상을 받으세요.</string>
+</resources>
