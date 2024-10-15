@@ -497,17 +497,19 @@ fun BaseCardInput(
     var cvcFocus by remember { mutableStateOf(false) }
 
     LaunchedEffect(numFocus, mmyyFocus, cvcFocus) {
-        if (numFocus) {
-            numFocusRequester.requestFocus()
-            numFocus = false
-        }
-        if (mmyyFocus) {
-            mmyyFocusRequester.requestFocus()
-            mmyyFocus = false
-        }
-        if (cvcFocus) {
-            cvcFocusRequester.requestFocus()
-            cvcFocus = false
+        when{
+            numFocus -> {
+                numFocusRequester.requestFocus()
+                numFocus = false
+            }
+            mmyyFocus -> {
+                mmyyFocusRequester.requestFocus()
+                mmyyFocus = false
+            }
+            cvcFocus -> {
+                cvcFocusRequester.requestFocus()
+                cvcFocus = false
+            }
         }
     }
 
