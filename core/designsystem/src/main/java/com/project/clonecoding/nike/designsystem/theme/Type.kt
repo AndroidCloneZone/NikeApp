@@ -176,7 +176,7 @@ val nikeTypography = NikeTypography(
     text2XlMedium = TextStyle(
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 26.sp,
+        fontSize = 16.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.sp,
         platformStyle = PlatformTextStyle(includeFontPadding = true)
@@ -184,7 +184,7 @@ val nikeTypography = NikeTypography(
     text2XlBold = TextStyle(
         fontFamily = HelveticaNowTextFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 26.sp,
+        fontSize = 16.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.sp,
         platformStyle = PlatformTextStyle(includeFontPadding = true)
