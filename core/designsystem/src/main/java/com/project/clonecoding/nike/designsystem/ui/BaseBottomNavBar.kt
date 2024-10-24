@@ -32,6 +32,12 @@ import com.project.clonecoding.nike.designsystem.theme.gray600
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
 import com.project.clonecoding.nike.designsystem.theme.white
 
+/**
+ * 기본으로 들어가는 바텀 네비게이션
+ * @author 이유호
+ * @param navController 바텀 네비게이션 조작을 위한 NavHostController
+ * @param items 바텀 네비게이션에 들어갈 아이템, default: list(Home, Shop, Favorites, Bag, Profile)
+ */
 @Composable
 fun BaseBottomNavBar(
     navController: NavHostController,
@@ -131,6 +137,13 @@ private fun NavigationGraph(
 }
 
 
+/**
+ * 바텀 네비게이션 아이템
+ * @author 이유호
+ * @param icon 해당 아이템의 icon id
+ * @param strId 해당 아이템의 string id
+ * @param route 네비게이션 컨트롤 간 사용하는 route string
+ */
 sealed class NavItem(
     @DrawableRes val icon: Int,
     @StringRes val strId: Int,
