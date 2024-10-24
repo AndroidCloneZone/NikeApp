@@ -72,4 +72,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Glide
+    implementation(libs.glide.compose)
 }

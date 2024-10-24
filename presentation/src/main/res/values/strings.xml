@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="datetime_review_error">Wrong access</string>
+    <string name="datetime_review_now">Now</string>
+    <string name="datetime_review_minutes">#VALUE# minutes ago</string>
+    <string name="datetime_review_hours">#VALUE# hours ago</string>
+    <string name="datetime_review_days">#VALUE# days ago</string>
+
+    <string name="home_detail_explore">Explore</string>
+    <string name="home_detail_comments">Comments</string>
+    <string name="home_detail_add_comment">Add a comment…</string>
+</resources>
