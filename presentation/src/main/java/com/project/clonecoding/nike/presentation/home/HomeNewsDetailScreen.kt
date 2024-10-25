@@ -3,6 +3,7 @@ package com.project.clonecoding.nike.presentation.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +19,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +30,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -48,50 +56,78 @@ import com.project.clonecoding.nike.designsystem.ui.ButtonStyle
 import com.project.clonecoding.nike.domain.model.NewsCommentModel
 import com.project.clonecoding.nike.presentation.R
 import com.project.clonecoding.nike.presentation.util.DatetimeUtil
+import kotlinx.coroutines.launch
 import java.time.ZoneId
 
 @Composable
 @Preview(showBackground = true)
-fun HomeNewsDetailScreen(viewModel: HomeViewModel = hiltViewModel(), modifier: Modifier = Modifier) {
+fun HomeNewsDetailScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
     NikeTheme {
-        Scaffold{
+        Scaffold {
             Column(modifier = modifier.padding(it)) {
+                val lazyListState = rememberLazyListState()
+                val isComment by remember { derivedStateOf {
+                    lazyListState.firstVisibleItemIndex > 1
+                } }
+
                 HomeNewsDetailScreenHeader(
+                    isComment = isComment,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(51.dp)
                 )
-                HomeNewsDetailScreenBody(viewModel = viewModel, modifier = Modifier.fillMaxSize())
+                HomeNewsDetailScreenBody(
+                    viewModel = viewModel,
+                    lazyListState = lazyListState,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
 }
 
 @Composable
-fun HomeNewsDetailScreenHeader(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center
-    ) {
-        IconButton(
-            modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f),
-            onClick = { /*TODO*/ }) {
-            Icon(
-                painter = painterResource(id = com.project.clonecoding.nike.designsystem.R.drawable.ic_left_24),
-                contentDescription = "HomeNewsDetailScreenHeaderArrow"
+fun HomeNewsDetailScreenHeader(isComment: Boolean, modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            IconButton(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .aspectRatio(1f),
+                onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = painterResource(id = com.project.clonecoding.nike.designsystem.R.drawable.ic_left_24),
+                    contentDescription = "HomeNewsDetailScreenHeaderArrow"
+                )
+            }
+        }
+        if (isComment) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = stringResource(id = R.string.home_detail_comments).uppercase(),
+                style = nikeTypography.text2XlMedium
             )
         }
     }
 }
 
 @Composable
-fun HomeNewsDetailScreenBody(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+fun HomeNewsDetailScreenBody(
+    viewModel: HomeViewModel,
+    lazyListState: LazyListState,
+    modifier: Modifier = Modifier
+) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = modifier,
+        state = lazyListState
     ) {
         item {
             HomeNewsDetailContent(modifier = Modifier.fillMaxWidth())
@@ -99,9 +135,15 @@ fun HomeNewsDetailScreenBody(viewModel: HomeViewModel, modifier: Modifier = Modi
         }
 
         item {
+            HomeNewsDetailAddCommentTitle(
+                commentSize = state.value.newsCommentList.size,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item {
             HomeNewsDetailAddCommentArea(
                 inputComment = state.value.inputComment,
-                commentSize = state.value.newsCommentList.size,
                 modifier = Modifier.fillMaxWidth(),
                 onCommentChanged = { newValue ->
                     viewModel.onEvent(HomeEvent.OnInputCommentChanged(newValue))
@@ -120,7 +162,6 @@ fun HomeNewsDetailScreenBody(viewModel: HomeViewModel, modifier: Modifier = Modi
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HomeNewsDetailContent(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
@@ -201,15 +242,11 @@ fun HomeNewsDetailContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeNewsDetailAddCommentArea(
-    inputComment: String,
+fun HomeNewsDetailAddCommentTitle(
     commentSize: Int,
-    modifier: Modifier = Modifier,
-    onCommentChanged: (String) -> Unit
+    modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(horizontal = 24.dp)
-    ) {
+    Column(modifier = modifier.padding(horizontal = 24.dp)) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -224,7 +261,18 @@ fun HomeNewsDetailAddCommentArea(
             style = nikeTypography.textXlMedium,
             color = Color.Black
         )
+    }
+}
 
+@Composable
+fun HomeNewsDetailAddCommentArea(
+    inputComment: String,
+    modifier: Modifier = Modifier,
+    onCommentChanged: (String) -> Unit
+) {
+    Column(
+        modifier = modifier.padding(horizontal = 24.dp)
+    ) {
         Spacer(modifier = Modifier.height(27.dp))
 
         TextField(
