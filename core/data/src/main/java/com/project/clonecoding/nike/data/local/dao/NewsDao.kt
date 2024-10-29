@@ -11,6 +11,6 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: NewsCommentEntity): Long
 
-    @Query("SELECT * FROM NewsComment WHERE newsId = :newsId")
+    @Query("SELECT * FROM NewsComment WHERE newsId = :newsId ORDER BY datetime DESC")
     fun fetchNewsCommentEntities(newsId: Int): List<NewsCommentEntity>
 }
