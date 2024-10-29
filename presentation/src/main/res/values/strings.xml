@@ -8,5 +8,5 @@
 
     <string name="home_detail_explore">Explore</string>
     <string name="home_detail_comments">Comments</string>
-    <string name="home_detail_add_comment">Add a comment…</string>
+    <string name="home_detail_add_comment">Add a comment</string>
 </resources>

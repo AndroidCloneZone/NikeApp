@@ -26,13 +26,16 @@ class HomeViewModel @Inject constructor(
             userNickname = "Tester",
             selectedNewsId = 1
         )
+
+        onEvent(HomeEvent.FetchNewsComments)
     }
 
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.AddNewsComment -> {
-                addNewsReview(event.comment)
+                addNewsReview(review = _state.value.inputComment)
             }
+
             is HomeEvent.FetchNewsComments -> {
                 getNewsReview()
             }
@@ -49,7 +52,7 @@ class HomeViewModel @Inject constructor(
         review: String
     ) {
         viewModelScope.launch {
-            if(_state.value.selectedNewsId != null){
+            if (_state.value.selectedNewsId != null) {
                 addNewsCommentUseCase(
                     model = NewsCommentModel(
                         newsId = _state.value.selectedNewsId!!,
@@ -57,15 +60,18 @@ class HomeViewModel @Inject constructor(
                         comment = review,
                         ldt = LocalDateTime.now(),
                     )
-                ).collect{ result ->
+                ).collect { result ->
                     when (result) {
                         is DataState.Loading -> {
                             _state.value = _state.value.copy(isLoading = result.isLoading)
                         }
 
                         is DataState.Success -> {
-                            result.data?.let { items ->
-                                _state.value = _state.value.copy(isLoading = false)
+                            if (result.data == true) {
+                                _state.value = _state.value.copy(
+                                    inputComment = "", isLoading = false
+                                )
+                                onEvent(HomeEvent.FetchNewsComments)
                             }
                         }
 
@@ -78,12 +84,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getNewsReview(){
+    private fun getNewsReview() {
         viewModelScope.launch {
-            if(_state.value.selectedNewsId != null){
+            if (_state.value.selectedNewsId != null) {
                 getNewsCommentUseCase(
                     newsId = _state.value.selectedNewsId!!
-                ).collect{ result ->
+                ).collect { result ->
                     when (result) {
                         is DataState.Loading -> {
                             _state.value = _state.value.copy(isLoading = result.isLoading)

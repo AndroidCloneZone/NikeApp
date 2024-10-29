@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +26,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -30,16 +34,23 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,8 +60,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
+import com.project.clonecoding.nike.designsystem.theme.black
+import com.project.clonecoding.nike.designsystem.theme.gray200
 import com.project.clonecoding.nike.designsystem.theme.gray600
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
+import com.project.clonecoding.nike.designsystem.theme.white
 import com.project.clonecoding.nike.designsystem.ui.BaseButton
 import com.project.clonecoding.nike.designsystem.ui.ButtonStyle
 import com.project.clonecoding.nike.domain.model.NewsCommentModel
@@ -67,23 +81,74 @@ fun HomeNewsDetailScreen(
 ) {
     NikeTheme {
         Scaffold {
-            Column(modifier = modifier.padding(it)) {
-                val lazyListState = rememberLazyListState()
-                val isComment by remember { derivedStateOf {
-                    lazyListState.firstVisibleItemIndex > 1
-                } }
+            Box(modifier = modifier.background(white)) {
+                val state = viewModel.state.collectAsStateWithLifecycle()
 
-                HomeNewsDetailScreenHeader(
-                    isComment = isComment,
+                var keyboardActiveState by remember {
+                    mutableStateOf(false)
+                }
+
+                val focusRequester = remember{ FocusRequester() }
+                val focusManager = LocalFocusManager.current
+
+                val interactionSource = remember { MutableInteractionSource() }
+
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(51.dp)
-                )
-                HomeNewsDetailScreenBody(
-                    viewModel = viewModel,
-                    lazyListState = lazyListState,
-                    modifier = Modifier.fillMaxSize()
-                )
+                        .fillMaxSize()
+                        .padding(it)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null
+                        ){
+                            focusManager.clearFocus()
+                            keyboardActiveState = false
+                        }
+                ) {
+                    val lazyListState = rememberLazyListState()
+                    val isComment by remember {
+                        derivedStateOf {
+                            lazyListState.firstVisibleItemIndex > 1
+                        }
+                    }
+
+                    HomeNewsDetailScreenHeader(
+                        isComment = isComment,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(51.dp)
+                    )
+                    HomeNewsDetailScreenBody(
+                        state = state,
+                        lazyListState = lazyListState,
+                        modifier = Modifier.fillMaxSize(),
+                        onKeyboardActive = {
+                            keyboardActiveState = true
+                            focusManager.clearFocus()
+                            focusRequester.requestFocus()
+                        }
+                    )
+                }
+
+                HomeNewsKeyboardInputArea(
+                    inputComment = state.value.inputComment,
+                    focusRequester = focusRequester,
+                    modifier = Modifier
+                        .then(
+                            if (keyboardActiveState) {
+                                Modifier.fillMaxWidth()
+                            } else {
+                                Modifier.width(0.dp)
+                            }
+                        )
+                        .align(Alignment.BottomCenter)
+                        .imePadding(),
+                    onCommentChanged = { newValue ->
+                        viewModel.onEvent(HomeEvent.OnInputCommentChanged(newValue))
+                    },
+                    onPost = {
+                        viewModel.onEvent(HomeEvent.AddNewsComment)
+                    })
             }
         }
     }
@@ -119,15 +184,16 @@ fun HomeNewsDetailScreenHeader(isComment: Boolean, modifier: Modifier = Modifier
 
 @Composable
 fun HomeNewsDetailScreenBody(
-    viewModel: HomeViewModel,
+    state: State<HomeState>,
     lazyListState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onKeyboardActive: () -> Unit
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = modifier,
-        state = lazyListState
+        state = lazyListState,
+        contentPadding = PaddingValues(bottom = 40.dp)
     ) {
         item {
             HomeNewsDetailContent(modifier = Modifier.fillMaxWidth())
@@ -143,11 +209,8 @@ fun HomeNewsDetailScreenBody(
 
         item {
             HomeNewsDetailAddCommentArea(
-                inputComment = state.value.inputComment,
                 modifier = Modifier.fillMaxWidth(),
-                onCommentChanged = { newValue ->
-                    viewModel.onEvent(HomeEvent.OnInputCommentChanged(newValue))
-                }
+                onKeyboardActive = onKeyboardActive
             )
             Spacer(modifier = Modifier.height(21.dp))
         }
@@ -266,41 +329,27 @@ fun HomeNewsDetailAddCommentTitle(
 
 @Composable
 fun HomeNewsDetailAddCommentArea(
-    inputComment: String,
     modifier: Modifier = Modifier,
-    onCommentChanged: (String) -> Unit
+    onKeyboardActive: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(horizontal = 24.dp)
     ) {
         Spacer(modifier = Modifier.height(27.dp))
 
-        TextField(
+        Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(CircleShape)
                 .border(width = 1.dp, color = Color(0xffe4e4e4), shape = CircleShape)
                 .background(Color.Transparent)
-                .padding(horizontal = 16.dp),
-            value = inputComment,
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.home_detail_add_comment),
-                    style = nikeTypography.textMdRegular,
-                    color = Color(0xff767676)
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                disabledContainerColor = Color.Transparent,
-                errorContainerColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
-            ),
-            onValueChange = onCommentChanged
+                .clickable {
+                    onKeyboardActive()
+                }
+                .padding(horizontal = 24.dp, vertical = 16.dp),
+            text = "${stringResource(id = R.string.home_detail_add_comment)}...",
+            style = nikeTypography.textMdRegular,
+            color = gray600
         )
     }
 }
@@ -344,5 +393,69 @@ fun HomeNewsDetailCommentItem(
             Text(text = reviewDatetime ?: "", style = nikeTypography.textSmRegular, color = gray600)
         }
 
+    }
+}
+
+@Composable
+fun HomeNewsKeyboardInputArea(
+    inputComment: String,
+    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier,
+    onCommentChanged: (String) -> Unit,
+    onPost: () -> Unit
+) {
+
+    Column(modifier = modifier.background(white)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(gray200)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                modifier = Modifier
+                    .weight(1f)
+                    .focusRequester(focusRequester),
+                value = inputComment,
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.home_detail_add_comment),
+                        style = nikeTypography.textMdRegular,
+                        color = gray600
+                    )
+                },
+                maxLines = 1,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorIndicatorColor = Color.Transparent
+                ),
+                onValueChange = onCommentChanged
+            )
+
+            Text(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(black)
+                    .clickable {
+                        onPost()
+                    }
+                    .padding(horizontal = 9.dp, vertical = 6.dp),
+                text = "Post",
+                style = nikeTypography.textMdRegular,
+                color = white
+            )
+        }
     }
 }
