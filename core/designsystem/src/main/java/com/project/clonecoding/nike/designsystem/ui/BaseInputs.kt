@@ -62,7 +62,13 @@ import com.project.clonecoding.nike.common.AccountRegex
 import com.project.clonecoding.nike.common.CardRegex
 import com.project.clonecoding.nike.common.data.CardType
 import com.project.clonecoding.nike.designsystem.R
+import com.project.clonecoding.nike.designsystem.theme.black
+import com.project.clonecoding.nike.designsystem.theme.error500
+import com.project.clonecoding.nike.designsystem.theme.gray300
+import com.project.clonecoding.nike.designsystem.theme.gray400
+import com.project.clonecoding.nike.designsystem.theme.gray600
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
+import com.project.clonecoding.nike.designsystem.theme.success600
 
 
 /**
@@ -159,26 +165,26 @@ fun BaseOutlinedInput(
                 }
             } else null,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                disabledTextColor = Color.Black.copy(alpha = 0.7f),
-                errorTextColor = Color(0xffca462a),
-                focusedBorderColor = Color(0xff767676),
-                unfocusedBorderColor = Color(0xff767676),
-                disabledBorderColor = Color(0xff767676).copy(alpha = 0.7f),
-                errorBorderColor = Color(0xffca462a),
-                focusedTrailingIconColor = Color.Black,
-                unfocusedTrailingIconColor = Color.Black,
-                disabledTrailingIconColor = Color.Black.copy(alpha = 0.7f),
-                errorTrailingIconColor = Color(0xffca462a),
-                focusedLabelColor = Color(0xff767676),
-                unfocusedLabelColor = Color(0xff767676),
-                disabledLabelColor = Color(0xff767676).copy(alpha = 0.7f),
-                errorLabelColor = Color(0xffca462a),
-                focusedPlaceholderColor = Color(0xff767676),
-                unfocusedPlaceholderColor = Color(0xff767676),
-                disabledPlaceholderColor = Color(0xff767676).copy(alpha = 0.7f),
-                errorPlaceholderColor = Color(0xffca462a),
+                focusedTextColor = black,
+                unfocusedTextColor = black,
+                disabledTextColor = black.copy(alpha = 0.7f),
+                errorTextColor = error500,
+                focusedBorderColor = gray600,
+                unfocusedBorderColor = gray600,
+                disabledBorderColor = gray600.copy(alpha = 0.7f),
+                errorBorderColor = error500,
+                focusedTrailingIconColor = black,
+                unfocusedTrailingIconColor = black,
+                disabledTrailingIconColor = black.copy(alpha = 0.7f),
+                errorTrailingIconColor = error500,
+                focusedLabelColor = gray600,
+                unfocusedLabelColor = gray600,
+                disabledLabelColor = gray600.copy(alpha = 0.7f),
+                errorLabelColor = error500,
+                focusedPlaceholderColor = gray600,
+                unfocusedPlaceholderColor = gray600,
+                disabledPlaceholderColor = gray600.copy(alpha = 0.7f),
+                errorPlaceholderColor = error500,
             ),
             enabled = enabled,
             isError = isError,
@@ -192,16 +198,16 @@ fun BaseOutlinedInput(
                 OutlinedInputType.SignupPw -> {
                     // 조건1
                     val (c1Icon, c1Color) = if (value.length >= 8) {
-                        Pair(Icons.Default.Check, Color(0xff32862b))
+                        Pair(Icons.Default.Check, success600)
                     } else {
-                        Pair(Icons.Default.Close, Color(0xff767676))
+                        Pair(Icons.Default.Close, gray600)
                     }
 
                     // 조건2
                     val (c2Icon, c2Color) = if (AccountRegex.isPasswordValid(value)) {
-                        Pair(Icons.Default.Check, Color(0xff32862b))
+                        Pair(Icons.Default.Check, success600)
                     } else {
-                        Pair(Icons.Default.Close, Color(0xff767676))
+                        Pair(Icons.Default.Close, gray600)
                     }
                     Column(modifier = Modifier.padding(horizontal = 11.dp, vertical = 6.dp)) {
                         Row(
@@ -251,7 +257,7 @@ fun BaseOutlinedInput(
                         Text(
                             text = stringResource(id = R.string.label_date_of_birth),
                             style = nikeTypography.textSmRegular,
-                            color = Color(0xff767676)
+                            color = gray600
                         )
                     }
                 }
@@ -289,7 +295,7 @@ fun BaseFormDropdown(
 
     Column {
         if (title.isNotEmpty()) {
-            Text(text = title, style = nikeTypography.textSmRegular, color = Color(0xff767676))
+            Text(text = title, style = nikeTypography.textSmRegular, color = gray600)
             Spacer(modifier = Modifier.height(10.dp))
         }
         Row(
@@ -298,7 +304,7 @@ fun BaseFormDropdown(
                 .border(
                     width = 1.dp,
                     shape = RoundedCornerShape(2.dp),
-                    color = Color(0xffcdcdcd)
+                    color = gray300
                 )
                 .background(Color.White)
                 .clickable {
@@ -314,14 +320,14 @@ fun BaseFormDropdown(
                     modifier = Modifier.weight(1f),
                     text = hint,
                     style = nikeTypography.textMdRegular,
-                    color = Color(0xffbababa)
+                    color = gray400
                 )
             } else {
                 Text(
                     modifier = Modifier.weight(1f),
                     text = selectedItem,
                     style = nikeTypography.textMdRegular,
-                    color = Color.Black
+                    color = black
                 )
             }
 
@@ -329,7 +335,7 @@ fun BaseFormDropdown(
                 if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown
             Icon(
                 imageVector = icon,
-                tint = Color.Black,
+                tint = black,
                 contentDescription = "BaseFormDropdownArrow"
             )
         }
@@ -348,7 +354,7 @@ fun BaseFormDropdown(
                         }, text = {
                             Text(
                                 text = item,
-                                color = Color.Black,
+                                color = black,
                                 style = nikeTypography.textMdRegular
                             )
                         }
@@ -378,7 +384,7 @@ fun BaseFormTextFiled(
 ) {
     Column {
         if (title.isNotEmpty()) {
-            Text(text = title, style = nikeTypography.textSmRegular, color = Color(0xff767676))
+            Text(text = title, style = nikeTypography.textSmRegular, color = gray600)
             Spacer(modifier = Modifier.height(10.dp))
         }
         OutlinedTextField(
@@ -393,26 +399,26 @@ fun BaseFormTextFiled(
             singleLine = true,
             shape = RoundedCornerShape(2.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                disabledTextColor = Color.Black.copy(alpha = 0.7f),
-                errorTextColor = Color(0xffca462a),
-                focusedBorderColor = Color(0xffcdcdcd),
-                unfocusedBorderColor = Color(0xffcdcdcd),
-                disabledBorderColor = Color(0xffcdcdcd).copy(alpha = 0.7f),
-                errorBorderColor = Color(0xffca462a),
-                focusedTrailingIconColor = Color(0xff767676),
-                unfocusedTrailingIconColor = Color(0xff767676),
-                disabledTrailingIconColor = Color(0xff767676).copy(alpha = 0.7f),
-                errorTrailingIconColor = Color(0xffca462a),
-                focusedLabelColor = Color(0xffbababa),
-                unfocusedLabelColor = Color(0xffbababa),
-                disabledLabelColor = Color(0xffbababa).copy(alpha = 0.7f),
-                errorLabelColor = Color(0xffca462a),
-                focusedPlaceholderColor = Color(0xffbababa),
-                unfocusedPlaceholderColor = Color(0xffbababa),
-                disabledPlaceholderColor = Color(0xffbababa).copy(alpha = 0.7f),
-                errorPlaceholderColor = Color(0xffca462a),
+                focusedTextColor = black,
+                unfocusedTextColor = black,
+                disabledTextColor = black.copy(alpha = 0.7f),
+                errorTextColor = error500,
+                focusedBorderColor = gray300,
+                unfocusedBorderColor = gray300,
+                disabledBorderColor = gray300.copy(alpha = 0.7f),
+                errorBorderColor = error500,
+                focusedTrailingIconColor = gray600,
+                unfocusedTrailingIconColor = gray600,
+                disabledTrailingIconColor = gray600.copy(alpha = 0.7f),
+                errorTrailingIconColor = error500,
+                focusedLabelColor = gray400,
+                unfocusedLabelColor = gray400,
+                disabledLabelColor = gray400.copy(alpha = 0.7f),
+                errorLabelColor = error500,
+                focusedPlaceholderColor = gray400,
+                unfocusedPlaceholderColor = gray400,
+                disabledPlaceholderColor = gray400.copy(alpha = 0.7f),
+                errorPlaceholderColor = error500,
             ),
         )
     }
@@ -514,9 +520,9 @@ fun BaseCardInput(
     }
 
     val boxBorderColor = if (currNumFocus || currMmyyFocus || currCvcFocus) {
-        Color.Black
+        black
     } else {
-        Color(0xffcdcdcd)
+        gray300
     }
     Box(
         modifier = modifier
@@ -537,7 +543,7 @@ fun BaseCardInput(
                     modifier = Modifier.align(Alignment.CenterStart),
                     text = hint,
                     style = nikeTypography.textMdRegular,
-                    color = Color(0xff767676)
+                    color = gray600
                 )
             }
             Row(
@@ -584,7 +590,7 @@ fun BaseCardInput(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = "MM/YY",
                                 style = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
-                                color = Color(0xff767676)
+                                color = gray600
                             )
                         }
 
@@ -616,7 +622,7 @@ fun BaseCardInput(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = "CVC",
                                 style = nikeTypography.textMdRegular.copy(textAlign = TextAlign.Center),
-                                color = Color(0xff767676)
+                                color = gray600
                             )
                         }
 
@@ -646,7 +652,7 @@ fun BaseCardInput(
                     modifier = Modifier.clickable {
                         onCameraClick()
                     },
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_sample_camera_24),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_filled_camera_24),
                     contentDescription = "CardCamera"
                 )
             }
@@ -680,12 +686,12 @@ fun BaseTextArea(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = title, style = nikeTypography.textSmRegular, color = Color(0xff767676))
+                Text(text = title, style = nikeTypography.textSmRegular, color = gray600)
 
                 Text(
                     text = "${filteredValue.length}/${maxLength}",
                     style = nikeTypography.textSmRegular,
-                    color = Color(0xff767676)
+                    color = gray600
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -704,26 +710,26 @@ fun BaseTextArea(
             },
             shape = RoundedCornerShape(2.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                disabledTextColor = Color.Black.copy(alpha = 0.7f),
-                errorTextColor = Color(0xffca462a),
-                focusedBorderColor = Color(0xffcdcdcd),
-                unfocusedBorderColor = Color(0xffcdcdcd),
-                disabledBorderColor = Color(0xffcdcdcd).copy(alpha = 0.7f),
-                errorBorderColor = Color(0xffca462a),
-                focusedTrailingIconColor = Color(0xff767676),
-                unfocusedTrailingIconColor = Color(0xff767676),
-                disabledTrailingIconColor = Color(0xff767676).copy(alpha = 0.7f),
-                errorTrailingIconColor = Color(0xffca462a),
-                focusedLabelColor = Color(0xffbababa),
-                unfocusedLabelColor = Color(0xffbababa),
-                disabledLabelColor = Color(0xffbababa).copy(alpha = 0.7f),
-                errorLabelColor = Color(0xffca462a),
-                focusedPlaceholderColor = Color(0xffbababa),
-                unfocusedPlaceholderColor = Color(0xffbababa),
-                disabledPlaceholderColor = Color(0xffbababa).copy(alpha = 0.7f),
-                errorPlaceholderColor = Color(0xffca462a),
+                focusedTextColor = black,
+                unfocusedTextColor = black,
+                disabledTextColor = black.copy(alpha = 0.7f),
+                errorTextColor = error500,
+                focusedBorderColor = gray300,
+                unfocusedBorderColor = gray300,
+                disabledBorderColor = gray300.copy(alpha = 0.7f),
+                errorBorderColor = error500,
+                focusedTrailingIconColor = gray600,
+                unfocusedTrailingIconColor = gray600,
+                disabledTrailingIconColor = gray600.copy(alpha = 0.7f),
+                errorTrailingIconColor = error500,
+                focusedLabelColor = gray400,
+                unfocusedLabelColor = gray400,
+                disabledLabelColor = gray400.copy(alpha = 0.7f),
+                errorLabelColor = error500,
+                focusedPlaceholderColor = gray400,
+                unfocusedPlaceholderColor = gray400,
+                disabledPlaceholderColor = gray400.copy(alpha = 0.7f),
+                errorPlaceholderColor = error500,
             ),
         )
     }
@@ -820,25 +826,25 @@ sealed class OutlinedInputType(
 
     data object Pw : OutlinedInputType(
         hintId = R.string.hint_password,
-        iconIdList = listOf(R.drawable.ic_sample_eye_24, R.drawable.ic_sample_eye_slash_24),
+        iconIdList = listOf(R.drawable.ic_eye_24, R.drawable.ic_eye_closed_24),
         keyboardType = KeyboardType.Password
     )
 
     data object SignupPw : OutlinedInputType(
         hintId = R.string.hint_password,
-        iconIdList = listOf(R.drawable.ic_sample_eye_24, R.drawable.ic_sample_eye_slash_24),
+        iconIdList = listOf(R.drawable.ic_eye_24, R.drawable.ic_eye_closed_24),
         keyboardType = KeyboardType.Password
     )
 
     data object Code : OutlinedInputType(
         hintId = R.string.hint_code,
-        iconIdList = listOf(R.drawable.ic_sample_reload_24),
+        iconIdList = listOf(R.drawable.ic_arrow_clockwise_24),
         keyboardType = KeyboardType.Number
     )
 
     data object Birth : OutlinedInputType(
         hintId = R.string.hint_date_of_birth,
-        iconIdList = listOf(R.drawable.ic_sample_calendar_24),
+        iconIdList = listOf(R.drawable.ic_blank_calendar_24),
         keyboardType = KeyboardType.Number
     )
 }

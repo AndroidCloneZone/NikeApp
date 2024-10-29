@@ -29,7 +29,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.project.clonecoding.nike.designsystem.R
+import com.project.clonecoding.nike.designsystem.theme.black
+import com.project.clonecoding.nike.designsystem.theme.gray100
+import com.project.clonecoding.nike.designsystem.theme.gray200
+import com.project.clonecoding.nike.designsystem.theme.gray400
+import com.project.clonecoding.nike.designsystem.theme.gray500
+import com.project.clonecoding.nike.designsystem.theme.gray600
+import com.project.clonecoding.nike.designsystem.theme.gray800
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
+import com.project.clonecoding.nike.designsystem.theme.white
 
 
 /**
@@ -124,7 +132,7 @@ fun BaseButtonPreview() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xffeeeeee))
+            .background(gray200)
             .padding(20.dp)
     ) {
         BaseButton(
@@ -137,7 +145,7 @@ fun BaseButtonPreview() {
 
         BaseButton(
             text = "Join Us",
-            startIcon = R.drawable.ic_sample_camera_24,
+            startIcon = R.drawable.ic_filled_camera_24,
             modifier = Modifier.fillMaxWidth(),
             onClick = {}
         )
@@ -146,7 +154,7 @@ fun BaseButtonPreview() {
 
         BaseButton(
             text = "Join Us",
-            endIcon = R.drawable.ic_sample_camera_24,
+            endIcon = R.drawable.ic_filled_camera_24,
             modifier = Modifier.fillMaxWidth(),
             onClick = {}
         )
@@ -166,7 +174,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     onClick = {}
                 )
 
@@ -174,7 +182,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.FillDark,
                     onClick = {}
                 )
@@ -183,7 +191,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.EmptyLight,
                     onClick = {}
                 )
@@ -192,7 +200,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.EmptyDark,
                     onClick = {}
                 )
@@ -209,7 +217,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     enabled = false,
                     onClick = {}
                 )
@@ -218,7 +226,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.FillDark,
                     enabled = false,
                     onClick = {}
@@ -228,7 +236,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.EmptyLight,
                     enabled = false,
                     onClick = {}
@@ -238,7 +246,7 @@ fun BaseButtonPreview() {
 
                 BaseButton(
                     text = "Join Us",
-                    endIcon = R.drawable.ic_sample_camera_24,
+                    endIcon = R.drawable.ic_filled_camera_24,
                     style = ButtonStyle.EmptyDark,
                     enabled = false,
                     onClick = {}
@@ -250,12 +258,12 @@ fun BaseButtonPreview() {
 
         Row {
             BaseIconButton(
-                iconId = R.drawable.ic_sample_eye_24,
+                iconId = R.drawable.ic_line_heart_24,
                 modifier = Modifier.size(46.dp)
             )
 
             BaseIconButton(
-                iconId = R.drawable.ic_sample_eye_24,
+                iconId = R.drawable.ic_line_heart_24,
                 style = ButtonStyle.FillDark,
                 modifier = Modifier.size(46.dp)
             )
@@ -269,67 +277,66 @@ fun BaseButtonPreview() {
  * @param enabledColors 버튼이 활성화 되었을 때 지정되는 색상 모음
  * @param disabledColors 버튼이 비활성화 되었을 때 지정되는 색상 모음
  */
-// TODO: 지정된 DS color 넣어주기
 sealed class ButtonStyle(
     val enabledColors: BtnAttrColors,
     val disabledColors: BtnAttrColors
 ) {
     data object FillLight : ButtonStyle(
         enabledColors = BtnAttrColors(
-            textColor = Color(0xff000000),
-            iconColor = Color(0xff000000),
+            textColor = black,
+            iconColor = black,
             borderColor = null,
-            backgroundColor = Color(0xffffffff)
+            backgroundColor = white
         ),
         disabledColors = BtnAttrColors(
-            textColor = Color(0xff8c8c8c),
-            iconColor = Color(0xff8c8c8c),
+            textColor = gray500,
+            iconColor = gray500,
             borderColor = null,
-            backgroundColor = Color(0xff1f1f1f)
+            backgroundColor = gray800
         )
     )
 
     data object FillDark : ButtonStyle(
         enabledColors = BtnAttrColors(
-            textColor = Color(0xffffffff),
-            iconColor = Color(0xffffffff),
+            textColor = white,
+            iconColor = white,
             borderColor = null,
-            backgroundColor = Color(0xff000000)
+            backgroundColor = black
         ),
         disabledColors = BtnAttrColors(
-            textColor = Color(0xff767676),
-            iconColor = Color(0xff767676),
+            textColor = gray600,
+            iconColor = gray600,
             borderColor = null,
-            backgroundColor = Color(0xfff6f6f6)
+            backgroundColor = gray100
         )
     )
 
     data object EmptyLight : ButtonStyle(
         enabledColors = BtnAttrColors(
-            textColor = Color(0xffffffff),
-            iconColor = Color(0xffffffff),
-            borderColor = Color(0xffffffff),
+            textColor = white,
+            iconColor = white,
+            borderColor = white,
             backgroundColor = Color.Transparent
         ),
         disabledColors = BtnAttrColors(
-            textColor = Color(0xff8c8c8c),
-            iconColor = Color(0xff8c8c8c),
-            borderColor = Color(0xff8c8c8c),
+            textColor = gray500,
+            iconColor = gray500,
+            borderColor = gray500,
             backgroundColor = Color.Transparent
         )
     )
 
     data object EmptyDark : ButtonStyle(
         enabledColors = BtnAttrColors(
-            textColor = Color(0xff000000),
-            iconColor = Color(0xff000000),
-            borderColor = Color(0xffe4e4e4),
+            textColor = white,
+            iconColor = white,
+            borderColor = gray200,
             backgroundColor = Color.Transparent
         ),
         disabledColors = BtnAttrColors(
-            textColor = Color(0xffbababa),
-            iconColor = Color(0xffbababa),
-            borderColor = Color(0xffbababa),
+            textColor = gray400,
+            iconColor = gray400,
+            borderColor = gray400,
             backgroundColor = Color.Transparent
         )
     )

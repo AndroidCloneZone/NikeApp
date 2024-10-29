@@ -9,4 +9,10 @@
     <string name="label_password_1">최소 8자</string>
     <string name="label_password_2">대문자, 소문자 및 숫자 1개</string>
     <string name="label_date_of_birth">생일에 나이키 회원 보상을 받으세요.</string>
+
+    <string name="bottom_nav_item_home">Home</string>
+    <string name="bottom_nav_item_shop">Shop</string>
+    <string name="bottom_nav_item_favorites">Favorites</string>
+    <string name="bottom_nav_item_bag">Bag</string>
+    <string name="bottom_nav_item_profile">Profile</string>
 </resources>
