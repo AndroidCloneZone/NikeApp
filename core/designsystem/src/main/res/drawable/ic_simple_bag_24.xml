@@ -7,15 +7,12 @@
     <clip-path
         android:pathData="M0,0h24v24h-24z"/>
     <path
-        android:pathData="M12,5.25C4.5,5.25 1.5,12 1.5,12C1.5,12 4.5,18.75 12,18.75C19.5,18.75 22.5,12 22.5,12C22.5,12 19.5,5.25 12,5.25Z"
-        android:strokeLineJoin="round"
+        android:pathData="M7.647,4.5C7.647,3.119 8.766,2 10.147,2H14.618C15.901,2 16.941,3.04 16.941,4.324V4.324C16.941,5.607 15.901,6.647 14.618,6.647H7.647V4.5Z"
         android:strokeWidth="2"
         android:fillColor="#00000000"
-        android:strokeColor="#000000"
-        android:strokeLineCap="round"/>
+        android:strokeColor="#000000"/>
     <path
-        android:pathData="M12,15.75C14.071,15.75 15.75,14.071 15.75,12C15.75,9.929 14.071,8.25 12,8.25C9.929,8.25 8.25,9.929 8.25,12C8.25,14.071 9.929,15.75 12,15.75Z"
-        android:strokeLineJoin="round"
+        android:pathData="M19.265,6.647H21.588V19.25C21.588,20.631 20.469,21.75 19.088,21.75H5.5C4.119,21.75 3,20.631 3,19.25V6.647H13.456"
         android:strokeWidth="2"
         android:fillColor="#00000000"
         android:strokeColor="#000000"

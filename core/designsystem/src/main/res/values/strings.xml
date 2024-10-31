@@ -9,4 +9,10 @@
     <string name="label_password_1">Minimum of 8 characters</string>
     <string name="label_password_2">Uppercase, lowercase letters and one number</string>
     <string name="label_date_of_birth">Get a Nike Member Reward on your birthday.</string>
+
+    <string name="bottom_nav_item_home">Home</string>
+    <string name="bottom_nav_item_shop">Shop</string>
+    <string name="bottom_nav_item_favorites">Favorites</string>
+    <string name="bottom_nav_item_bag">Bag</string>
+    <string name="bottom_nav_item_profile">Profile</string>
 </resources>
