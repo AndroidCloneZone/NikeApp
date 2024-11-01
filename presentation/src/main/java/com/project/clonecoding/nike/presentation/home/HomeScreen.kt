@@ -163,7 +163,7 @@ fun MainContent(data: MainContentData) {
                 // 배너 서브 타이틀
                 Text(
                     text = data.subtitle,
-                    style = nikeTypography.textSmBold,
+                    style = nikeTypography.textMdBold,
                     color = Color.White
                 )
 
