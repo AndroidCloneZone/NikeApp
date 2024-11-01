@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.gray200
@@ -52,14 +54,14 @@ fun HomeScreen() {
             subtitle = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_subtitle),
             title = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_title),
             buttonText = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_purchase_button_text),
-            onButtonClick = { /* 구매 버튼 클릭 처리 */ }
+            onButtonClick = { navController.navigate("homeNewsDetail") } // 버튼 클릭 시 네비게이션 처리
         ),
         MainContentData(
             imageRes = com.project.clonecoding.nike.presentation.R.drawable.img_news_sample_2,
             subtitle = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_subtitle),
             title = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_title),
             buttonText = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_purchase_button_text),
-            onButtonClick = { /* 구매 버튼 클릭 처리 */ }
+            onButtonClick = { navController.navigate("homeNewsDetail") } // 버튼 클릭 시 네비게이션 처리
         ),
         // 필요한 만큼 데이터를 추가 가능
     )
