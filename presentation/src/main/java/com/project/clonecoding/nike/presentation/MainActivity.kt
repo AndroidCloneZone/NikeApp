@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
 import com.project.clonecoding.nike.presentation.home.HomeNewsDetailScreen
+import com.project.clonecoding.nike.presentation.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NikeTheme {
-                HomeNewsDetailScreen()
+                HomeScreen()
             }
         }
     }

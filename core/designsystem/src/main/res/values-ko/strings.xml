@@ -15,4 +15,10 @@
     <string name="bottom_nav_item_favorites">Favorites</string>
     <string name="bottom_nav_item_bag">Bag</string>
     <string name="bottom_nav_item_profile">Profile</string>
+
+    <string name="home_banner_title">RUN IN THE\nRAIN.</string>
+    <string name="home_banner_subtitle">페가수스 41 GORE-TEX</string>
+    <string name="home_purchase_button_text">구매하기</string>
+    <string name="home_news_title">나이키 소식</string>
+
 </resources>
