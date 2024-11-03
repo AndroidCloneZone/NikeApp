@@ -37,7 +37,8 @@ fun BaseToggleButton(
     enabled: Boolean = true,
     style: ToggleButtonStyle = ToggleButtonStyle.Default,
     modifier: Modifier = Modifier,
-    onToggleChange: (Boolean) -> Unit
+    onToggleChange: (Boolean) -> Unit,
+    content: @Composable RowScope.() -> Unit = {} // content 매개변수 추가
 ) {
     val colors = if (toggled) style.toggledColors else style.untoggledColors
 
@@ -64,7 +65,14 @@ fun BaseToggleButton(
                 .offset(x = if (toggled) (-2).dp else 2.dp)
                 .background(color = colors.toggleColor, shape = CircleShape)
                 .shadow(elevation = 0.dp, shape = CircleShape)
-            //TODO: 그림자 제대로 넣기
+        )
+
+        // 전달된 content 추가
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            content = content
         )
     }
 }

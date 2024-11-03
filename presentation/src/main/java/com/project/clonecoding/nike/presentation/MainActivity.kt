@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
+import com.project.clonecoding.nike.presentation.home.CollectionScreen
 import com.project.clonecoding.nike.presentation.home.HomeNewsDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -9,4 +9,11 @@
     <string name="home_detail_explore">Explore</string>
     <string name="home_detail_comments">Comments</string>
     <string name="home_detail_add_comment">Add a comment</string>
+
+    <string name="home_banner_title">RUN IN THE \nRAIN.</string>
+    <string name="home_banner_subtitle">페가수스 41 GORE-TEX</string>
+    <string name="home_purchase_button_text">구매하기</string>
+    <string name="home_news_title">나이키 소식</string>
+    <string name="home_top_view_all">모두보기</string>
+
 </resources>
