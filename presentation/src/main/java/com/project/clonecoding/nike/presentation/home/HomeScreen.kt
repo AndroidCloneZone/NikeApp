@@ -1,20 +1,12 @@
 package com.project.clonecoding.nike.presentation.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,18 +16,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.project.clonecoding.nike.designsystem.R
-import com.project.clonecoding.nike.designsystem.theme.gray200
+import com.project.clonecoding.nike.designsystem.navigation.BaseBottomNavBar
 import com.project.clonecoding.nike.designsystem.theme.gray400
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
-import com.project.clonecoding.nike.designsystem.ui.BaseBottomNavBar
 import com.project.clonecoding.nike.designsystem.ui.BaseButton
-import com.project.clonecoding.nike.designsystem.ui.BaseToggleButton
 import com.project.clonecoding.nike.designsystem.ui.ButtonStyle
-import com.project.clonecoding.nike.designsystem.ui.ToggleButtonStyle
 
 /**
  * Nike 홈 화면 UI 컴포저블
@@ -44,7 +32,10 @@ import com.project.clonecoding.nike.designsystem.ui.ToggleButtonStyle
  */
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navHostController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
 
     // 샘플 데이터 생성
@@ -207,5 +198,6 @@ data class MainContentData(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    val navHostController = rememberNavController()
+    HomeScreen(navHostController = navHostController)
 }

@@ -4,14 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.project.clonecoding.nike.designsystem.navigation.NavItem
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
-import com.project.clonecoding.nike.presentation.home.CollectionScreen
-import com.project.clonecoding.nike.presentation.home.HomeNewsDetailScreen
+import com.project.clonecoding.nike.presentation.home.HomeScreen
+import com.project.clonecoding.nike.presentation.home.screen.HomeNewsDetailScreen
+import com.project.clonecoding.nike.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,25 +26,51 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         enableEdgeToEdge()
         setContent {
+            val navHostController = rememberNavController()
             NikeTheme {
-                HomeNewsDetailScreen()
+                NavigationGraph(navHostController = navHostController)
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+private fun NavigationGraph(
+    navHostController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    val homeViewModel = hiltViewModel<HomeViewModel>()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NikeTheme {
-        Greeting("Android")
+    NavHost(
+        navController = navHostController,
+        startDestination = NavItem.Home.route,
+        modifier = modifier
+    ) {
+        composable(NavItem.Home.route) {
+            HomeScreen(
+                navHostController = navHostController,
+                viewModel = homeViewModel
+            )
+        }
+
+        composable(NavItem.HomeNewsDetail.route) {
+            HomeNewsDetailScreen(
+                navHostController = navHostController,
+                viewModel = homeViewModel
+            )
+        }
+
+        composable(NavItem.Shop.route) {
+
+        }
+        composable(NavItem.Favorites.route) {
+
+        }
+        composable(NavItem.Bag.route) {
+
+        }
+        composable(NavItem.Profile.route) {
+
+        }
     }
 }

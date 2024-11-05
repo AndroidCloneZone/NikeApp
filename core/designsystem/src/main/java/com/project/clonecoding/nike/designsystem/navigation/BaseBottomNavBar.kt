@@ -1,9 +1,6 @@
-package com.project.clonecoding.nike.designsystem.ui
+package com.project.clonecoding.nike.designsystem.navigation
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -26,7 +23,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.project.clonecoding.nike.designsystem.R
 import com.project.clonecoding.nike.designsystem.theme.black
 import com.project.clonecoding.nike.designsystem.theme.gray600
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
@@ -59,17 +55,21 @@ fun BaseBottomNavBar(
             NavigationBarItem(
                 selected = currentDestination?.route == item.route,
                 icon = {
-                    Icon(
-                        modifier = Modifier.size(28.dp),
-                        painter = painterResource(id = item.icon),
-                        contentDescription = "BaseBottomNavBarItemIcon${item.route}"
-                    )
+                    if(item.icon != null){
+                        Icon(
+                            modifier = Modifier.size(28.dp),
+                            painter = painterResource(id = item.icon),
+                            contentDescription = "BaseBottomNavBarItemIcon${item.route}"
+                        )
+                    }
                 },
                 label = {
-                    Text(
-                        text = stringResource(id = item.strId),
-                        style = nikeTypography.textXsRegular,
-                    )
+                    if(item.strId != null){
+                        Text(
+                            text = stringResource(id = item.strId),
+                            style = nikeTypography.textXsRegular,
+                        )
+                    }
                 },
                 onClick = {
                     navController.navigate(item.route) {
@@ -134,48 +134,4 @@ private fun NavigationGraph(
 
         }
     }
-}
-
-
-/**
- * 바텀 네비게이션 아이템
- * @author 이유호
- * @param icon 해당 아이템의 icon id
- * @param strId 해당 아이템의 string id
- * @param route 네비게이션 컨트롤 간 사용하는 route string
- */
-sealed class NavItem(
-    @DrawableRes val icon: Int,
-    @StringRes val strId: Int,
-    val route: String
-) {
-    data object Home : NavItem(
-        icon = R.drawable.ic_simple_house_24,
-        strId = R.string.bottom_nav_item_home,
-        route = "home"
-    )
-
-    data object Shop : NavItem(
-        icon = R.drawable.ic_list_search_24,
-        strId = R.string.bottom_nav_item_shop,
-        route = "shop"
-    )
-
-    data object Favorites : NavItem(
-        icon = R.drawable.ic_line_heart_24,
-        strId = R.string.bottom_nav_item_favorites,
-        route = "favorites"
-    )
-
-    data object Bag : NavItem(
-        icon = R.drawable.ic_simple_bag_24,
-        strId = R.string.bottom_nav_item_bag,
-        route = "bag"
-    )
-
-    data object Profile : NavItem(
-        icon = R.drawable.ic_user_24,
-        strId = R.string.bottom_nav_item_profile,
-        route = "user"
-    )
 }
