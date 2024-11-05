@@ -17,13 +17,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.project.clonecoding.nike.designsystem.navigation.BaseBottomNavBar
+import com.project.clonecoding.nike.designsystem.navigation.NavItem
 import com.project.clonecoding.nike.designsystem.theme.gray400
 import com.project.clonecoding.nike.designsystem.theme.nikeTypography
 import com.project.clonecoding.nike.designsystem.ui.BaseButton
 import com.project.clonecoding.nike.designsystem.ui.ButtonStyle
+import com.project.clonecoding.nike.presentation.home.item.MainContentItem
 
 /**
  * Nike 홈 화면 UI 컴포저블
@@ -36,31 +39,12 @@ fun HomeScreen(
     navHostController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val navController = rememberNavController()
-
-    // 샘플 데이터 생성
-    val sampleItems = listOf(
-        MainContentData(
-            imageRes = com.project.clonecoding.nike.presentation.R.drawable.img_news_sample_1,
-            subtitle = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_subtitle),
-            title = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_title),
-            buttonText = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_purchase_button_text),
-            onButtonClick = { navController.navigate("homeNewsDetail") } // 버튼 클릭 시 네비게이션 처리
-        ),
-        MainContentData(
-            imageRes = com.project.clonecoding.nike.presentation.R.drawable.img_news_sample_2,
-            subtitle = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_subtitle),
-            title = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_banner_title),
-            buttonText = stringResource(id = com.project.clonecoding.nike.presentation.R.string.home_purchase_button_text),
-            onButtonClick = { navController.navigate("homeNewsDetail") } // 버튼 클릭 시 네비게이션 처리
-        ),
-        // 필요한 만큼 데이터를 추가 가능
-    )
+    val state = viewModel.state.collectAsStateWithLifecycle()
 
     // 상단 바와 바텀 네비게이션 설정
     Scaffold(
         topBar = { TopNavigationBar() },
-        bottomBar = { BaseBottomNavBar(navController) }
+        bottomBar = { BaseBottomNavBar(navHostController) }
     ) { innerPadding ->
         // 메인 콘텐츠 영역
         Column(
@@ -68,7 +52,13 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            MainContentList(mainContentItems = sampleItems)
+            MainContentList(
+                mainContentItems = state.value.mainContentItem,
+                onSelected = { newsId ->
+                    viewModel.onEvent(HomeEvent.OnHomeNewsSelected(newsId = newsId))
+                    navHostController.navigate(route = NavItem.HomeNewsDetail.route)
+                }
+            )
         }
     }
 }
@@ -116,10 +106,16 @@ fun TopNavigationBar() {
  */
 
 @Composable
-fun MainContentList(mainContentItems: List<MainContentData>) {
+fun MainContentList(
+    mainContentItems: List<MainContentItem>,
+    onSelected: (Int) -> Unit
+) {
     LazyColumn {
         items(mainContentItems) { item ->
-            MainContent(item)
+            MainContent(
+                data = item,
+                onSelected = onSelected
+            )
             Spacer(modifier = Modifier.height(6.dp)) // 각 아이템 사이에 16dp 간격 추가
         }
     }
@@ -133,7 +129,10 @@ fun MainContentList(mainContentItems: List<MainContentData>) {
  */
 
 @Composable
-fun MainContent(data: MainContentData) {
+fun MainContent(
+    data: MainContentItem,
+    onSelected: (Int) -> Unit,
+) {
     Column {
         // 이미지와 텍스트로 구성된 메인 광고 배너
         Box {
@@ -153,43 +152,31 @@ fun MainContent(data: MainContentData) {
             ) {
                 // 배너 서브 타이틀
                 Text(
-                    text = data.subtitle,
+                    text = stringResource(id = data.subtitleId),
                     style = nikeTypography.textMdBold,
                     color = Color.White
                 )
 
                 // 배너 메인 타이틀
                 Text(
-                    text = data.title,
+                    text = stringResource(id = data.titleId),
                     style = nikeTypography.display2XlBold,
                     color = Color.White
                 )
 
                 // '구매하기' 버튼
                 BaseButton(
-                    text = data.buttonText,
+                    text = stringResource(id = data.buttonTextId),
                     style = ButtonStyle.FillLight,
                     modifier = Modifier.padding(top = 8.dp),
-                    onClick = data.onButtonClick
+                    onClick = {
+                        onSelected(data.id)
+                    }
                 )
             }
         }
     }
 }
-
-/**
- * 메인 콘텐츠 데이터 클래스
- * - 이미지 리소스 ID, 서브 타이틀, 메인 타이틀, 버튼 텍스트, 버튼 클릭 리스너 포함
- */
-
-data class MainContentData(
-    val imageRes: Int,
-    val subtitle: String,
-    val title: String,
-    val buttonText: String,
-    val onButtonClick: () -> Unit
-)
-
 
 /**
  * NikeHomeScreen 미리보기
