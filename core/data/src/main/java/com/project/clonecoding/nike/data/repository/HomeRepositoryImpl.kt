@@ -31,14 +31,12 @@ class HomeRepositoryImpl @Inject constructor(
                         datetime = Mapper.datetimeToTimestamp(model.ldt),
                     )
                 )
-                if (res == -1L) {
-                    emit(DataState.Loading(isLoading = false))
-                } else {
+                if (res != -1L) {
                     emit(DataState.Success(data = true))
-                    emit(DataState.Loading(isLoading = false))
                 }
             } catch (e: Exception) {
                 emit(DataState.Error(message = e.message ?: ""))
+            } finally {
                 emit(DataState.Loading(isLoading = false))
             }
         }.flowOn(Dispatchers.IO)
@@ -51,11 +49,10 @@ class HomeRepositoryImpl @Inject constructor(
                 val resList = nikeDatabase.getNewsDao().fetchNewsCommentEntities(
                     newsId = newsId
                 )
-
                 emit(DataState.Success(data = resList.toNewsCommentModelList()))
-                emit(DataState.Loading(isLoading = false))
             } catch (e: Exception) {
                 emit(DataState.Error(message = e.message ?: ""))
+            } finally {
                 emit(DataState.Loading(isLoading = false))
             }
         }.flowOn(Dispatchers.IO)
