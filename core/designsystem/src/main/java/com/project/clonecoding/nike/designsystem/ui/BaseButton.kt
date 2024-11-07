@@ -328,8 +328,8 @@ sealed class ButtonStyle(
 
     data object EmptyDark : ButtonStyle(
         enabledColors = BtnAttrColors(
-            textColor = white,
-            iconColor = white,
+            textColor = black,
+            iconColor = black,
             borderColor = gray200,
             backgroundColor = Color.Transparent
         ),
