@@ -1,4 +1,4 @@
-package com.project.clonecoding.nike.presentation.home
+package com.project.clonecoding.nike.presentation.home.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,13 +34,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,10 +51,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
@@ -69,19 +67,20 @@ import com.project.clonecoding.nike.designsystem.ui.BaseButton
 import com.project.clonecoding.nike.designsystem.ui.ButtonStyle
 import com.project.clonecoding.nike.domain.model.NewsCommentModel
 import com.project.clonecoding.nike.presentation.R
+import com.project.clonecoding.nike.presentation.home.HomeEvent
+import com.project.clonecoding.nike.presentation.home.HomeState
+import com.project.clonecoding.nike.presentation.home.HomeViewModel
 import com.project.clonecoding.nike.presentation.util.DatetimeUtil
-import kotlinx.coroutines.launch
 import java.time.ZoneId
 
 @Composable
-@Preview(showBackground = true)
 fun HomeNewsDetailScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    navHostController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     NikeTheme {
         Scaffold {
-            Box(modifier = modifier.background(white)) {
+            Box(modifier = Modifier.background(white)) {
                 val state = viewModel.state.collectAsStateWithLifecycle()
 
                 var keyboardActiveState by remember {

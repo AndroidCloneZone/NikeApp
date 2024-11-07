@@ -9,8 +9,8 @@ import com.project.clonecoding.nike.data.local.entity.NewsCommentEntity
 @Dao
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: NewsCommentEntity): Long
+    suspend fun insert(entity: NewsCommentEntity): Long
 
     @Query("SELECT * FROM NewsComment WHERE newsId = :newsId ORDER BY datetime DESC")
-    fun fetchNewsCommentEntities(newsId: Int): List<NewsCommentEntity>
+    suspend fun fetchNewsCommentEntities(newsId: Int): List<NewsCommentEntity>
 }

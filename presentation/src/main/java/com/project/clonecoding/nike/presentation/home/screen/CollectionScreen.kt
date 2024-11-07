@@ -1,4 +1,4 @@
-package com.project.clonecoding.nike.presentation.home
+package com.project.clonecoding.nike.presentation.home.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.project.clonecoding.nike.designsystem.ui.BaseBottomNavBar
+import com.project.clonecoding.nike.designsystem.navigation.BaseBottomNavBar
 import com.project.clonecoding.nike.designsystem.ui.BaseIconButton
 import com.project.clonecoding.nike.presentation.R
 
