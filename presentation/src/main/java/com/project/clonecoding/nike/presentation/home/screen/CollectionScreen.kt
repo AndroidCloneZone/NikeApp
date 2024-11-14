@@ -1,29 +1,72 @@
 package com.project.clonecoding.nike.presentation.home.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.project.clonecoding.nike.designsystem.navigation.BaseBottomNavBar
+import com.project.clonecoding.nike.designsystem.navigation.NavItem
+import com.project.clonecoding.nike.designsystem.theme.black
+import com.project.clonecoding.nike.designsystem.theme.error500
+import com.project.clonecoding.nike.designsystem.theme.gray600
+import com.project.clonecoding.nike.designsystem.theme.nikeTypography
+import com.project.clonecoding.nike.designsystem.theme.warning500
+import com.project.clonecoding.nike.designsystem.theme.white
+import com.project.clonecoding.nike.designsystem.ui.BaseControlBar
 import com.project.clonecoding.nike.designsystem.ui.BaseIconButton
+import com.project.clonecoding.nike.domain.model.ProductModel
 import com.project.clonecoding.nike.presentation.R
+import com.project.clonecoding.nike.presentation.shop.ShopEvent
+import com.project.clonecoding.nike.presentation.shop.ShopViewModel
+import com.project.clonecoding.nike.presentation.shop.item.FilterCategory
+import com.project.clonecoding.nike.presentation.util.StringUtil.toPriceFormat
 
 /**
  * Nike 컬렉션 화면 UI 컴포저블
@@ -31,12 +74,35 @@ import com.project.clonecoding.nike.presentation.R
  */
 
 @Composable
-fun CollectionScreen() {
-    val navController = rememberNavController()
+fun CollectionScreen(
+    navController: NavHostController,
+    viewModel: ShopViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
+    // 클릭 시 차단 상태를 관리할 플래그
+    var isExitCalled by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { CollectionTopAppBar() },
-        bottomBar = { CollectionBottomNavBar() }
+        topBar = {
+            BaseControlBar(
+                title = "N7 Collection",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(white)
+                    .statusBarsPadding(),
+                onBackPressed = {
+                    if (!isExitCalled) {
+                        navController.popBackStack()
+                        isExitCalled = true
+                    }
+                },
+                onSearch = {},
+                onFilter = {
+                    navController.navigate(NavItem.ProductFilter.route)
+                },
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -44,48 +110,23 @@ fun CollectionScreen() {
                 .padding(innerPadding)
                 .background(Color.White)
         ) {
-            CollectionTabs()
-            CollectionItemsGrid()
+            CollectionTabs(
+                selectedCategory = state.value.category,
+                onCategorySelect = { category ->
+                    if (state.value.category != category) {
+                        viewModel.onEvent(ShopEvent.ChangeCategory(category))
+                    }
+                }
+            )
+            CollectionItemsGrid(
+                productList = state.value.productList,
+                isProductsLoading = state.value.isProductsLoading,
+                onFetchProducts = {
+                    viewModel.onEvent(ShopEvent.FetchProducts)
+                }
+            )
         }
     }
-}
-
-/**
- * 상단 앱 바 UI 컴포저블
- * - 타이틀과 뒤로가기, 정렬, 검색 아이콘을 포함합니다.
- */
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CollectionTopAppBar() {
-    TopAppBar(
-        title = {
-            Text(
-                text = "N7 Collection",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center // 타이틀을 중앙 정렬
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* TODO: 뒤로가기 처리 */ }) {
-                Icon(painter = painterResource(com.project.clonecoding.nike.designsystem.R.drawable.ic_left_24), contentDescription = "Back")
-            }
-        },
-        actions = {
-            IconButton(onClick = { /* TODO: 정렬 아이콘 클릭 처리 */ }) {
-                Icon(painter = painterResource(com.project.clonecoding.nike.designsystem.R.drawable.ic_horizontal_seek_bar_24), contentDescription = "Sort")
-            }
-            IconButton(onClick = { /* TODO: 검색 아이콘 클릭 처리 */ }) {
-                Icon(painter = painterResource(com.project.clonecoding.nike.designsystem.R.drawable.ic_list_search_24), contentDescription = "Search")
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = Color.Black
-        )
-    )
 }
 
 /**
@@ -94,9 +135,27 @@ fun CollectionTopAppBar() {
  */
 
 @Composable
-fun CollectionTabs() {
-    var selectedTabIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("All", "Tops & T-Shirts", "Hoodies & Pullovers", "Shoes", "Accessories")
+fun CollectionTabs(
+    selectedCategory: FilterCategory,
+    onCategorySelect: (FilterCategory) -> Unit
+) {
+    val tabs = listOf(
+        FilterCategory.All,
+        FilterCategory.Beauty,
+        FilterCategory.Shoes,
+        FilterCategory.Top,
+        FilterCategory.Outer,
+        FilterCategory.Pants,
+        FilterCategory.Skirt,
+        FilterCategory.Bag,
+        FilterCategory.Accessories,
+        FilterCategory.Underwear,
+        FilterCategory.Sportswear,
+        FilterCategory.Digital,
+        FilterCategory.Kids
+    )
+
+    val selectedTabIndex = tabs.indexOf(selectedCategory)
 
     ScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
@@ -104,11 +163,19 @@ fun CollectionTabs() {
         contentColor = Color.Black,
         edgePadding = 0.dp
     ) {
-        tabs.forEachIndexed { index, title ->
+        tabs.forEachIndexed { index, category ->
             Tab(
                 selected = selectedTabIndex == index,
-                onClick = { selectedTabIndex = index },
-                text = { Text(title, fontSize = 14.sp, fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal) }
+                onClick = {
+                    onCategorySelect(tabs[index])
+                },
+                text = {
+                    Text(
+                        stringResource(id = category.strId),
+                        fontSize = 14.sp,
+                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                    )
+                }
             )
         }
     }
@@ -120,27 +187,35 @@ fun CollectionTabs() {
  */
 
 @Composable
-fun CollectionItemsGrid() {
-    val items = listOf(
-        CollectionItemData(R.drawable.img_sample_item1, "Cosmic Unity 3 N7", "Basketball Shoes", "1 Colours", "US\$170"),
-        CollectionItemData(R.drawable.img_sample_item2, "Nike Benassi N7", "Slides", "1 Colours", "US\$35"),
-        CollectionItemData(R.drawable.img_sample_item3, "Nike Sportswear Club Fleece N7", "Pullover Hoodie", "1 Colours", "US\$70"),
-        CollectionItemData(R.drawable.img_sample_item4, "Nike Sportswear Club Fleece N7", "Joggers", "1 Colours", "US\$65"),
-                CollectionItemData(R.drawable.img_sample_item1, "Cosmic Unity 3 N7", "Basketball Shoes", "1 Colours", "US\$170"),
-    CollectionItemData(R.drawable.img_sample_item2, "Nike Benassi N7", "Slides", "1 Colours", "US\$35"),
-    CollectionItemData(R.drawable.img_sample_item3, "Nike Sportswear Club Fleece N7", "Pullover Hoodie", "1 Colours", "US\$70"),
-    CollectionItemData(R.drawable.img_sample_item4, "Nike Sportswear Club Fleece N7", "Joggers", "1 Colours", "US\$65")
-    )
+fun CollectionItemsGrid(
+    productList: List<ProductModel>,
+    isProductsLoading: Boolean,
+    onFetchProducts: () -> Unit
+) {
+    val listState = rememberLazyGridState()
 
+    // listState, productList, isProductsLoading이 변경될 때마다 내부 LaunchEffect를 수행시켜줌
+    LaunchedEffect(listState, productList, isProductsLoading) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItem = visibleItems.lastOrNull()
+                if (productList.isNotEmpty() && !isProductsLoading) {
+                    if (lastVisibleItem != null && lastVisibleItem.index == listState.layoutInfo.totalItemsCount - 1) {
+                        onFetchProducts()
+                    }
+                }
+            }
+    }
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.background(Color.White)
+        modifier = Modifier.background(Color.White),
+        state = listState
     ) {
-        items(items) { item ->
-            CollectionItemCard(item)
+        items(productList) { item ->
+            CollectionItemCard(data = item, isBestSeller = item.likeCount > 9500)
         }
     }
 }
@@ -151,8 +226,12 @@ fun CollectionItemsGrid() {
  * @param data 표시할 상품 정보
  */
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CollectionItemCard(data: CollectionItemData) {
+fun CollectionItemCard(
+    data: ProductModel,
+    isBestSeller: Boolean
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -162,9 +241,9 @@ fun CollectionItemCard(data: CollectionItemData) {
     ) {
         Column() { // 여백 설정
             Box {
-                Image(
-                    painter = painterResource(id = data.imageRes),
-                    contentDescription = data.title,
+                GlideImage(
+                    model = data.imgPath,
+                    contentDescription = data.id,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(184.dp),
@@ -179,28 +258,39 @@ fun CollectionItemCard(data: CollectionItemData) {
                         .background(Color.White, shape = CircleShape)
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = data.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-            Text(text = data.subtitle, color = Color.Gray, fontSize = 14.sp)
-            Text(text = data.color, color = Color.Gray, fontSize = 14.sp)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = data.price, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black)
+            Spacer(modifier = Modifier.height(14.dp))
+            Column(modifier = Modifier.padding(horizontal = 14.dp)) {
+                if (isBestSeller) {
+                    Text(text = "BestSeller", style = nikeTypography.textMdBold, color = warning500)
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(text = data.name, style = nikeTypography.textMdBold, color = black)
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(text = data.category, style = nikeTypography.textMdRegular, color = gray600)
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = com.project.clonecoding.nike.designsystem.R.drawable.ic_line_heart_14),
+                        tint = error500,
+                        contentDescription = "${data.id}_like_icon"
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "${data.likeCount}",
+                        style = nikeTypography.textMdRegular,
+                        color = gray600
+                    )
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = "${data.price.toPriceFormat()} ${stringResource(id = R.string.filter_price_unit)}",
+                    style = nikeTypography.textMdBold,
+                    color = black
+                )
+            }
         }
     }
 }
-
-/**
- * CollectionItemData 데이터 클래스
- * - 각 상품 카드에서 표시할 상품 정보를 저장합니다.
- */
-
-data class CollectionItemData(
-    val imageRes: Int,
-    val title: String,
-    val subtitle: String,
-    val color: String,
-    val price: String
-)
 
 /**
  * 하단 네비게이션 바 UI 컴포저블
@@ -220,5 +310,40 @@ fun CollectionBottomNavBar() {
 @Preview(showBackground = true)
 @Composable
 fun CollectionScreenPreview() {
-    CollectionScreen()
+    var currCategory by rememberSaveable {
+        mutableStateOf(FilterCategory.All)
+    }
+    Scaffold(
+        topBar = {
+            BaseControlBar(
+                title = "N7 Collection",
+                modifier = Modifier.background(white),
+                onBackPressed = {},
+                onSearch = {},
+                onFilter = {},
+            )
+        },
+        bottomBar = { CollectionBottomNavBar() }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(Color.White)
+        ) {
+            CollectionTabs(
+                selectedCategory = currCategory,
+                onCategorySelect = { category ->
+                    currCategory = category
+                }
+            )
+            CollectionItemsGrid(
+                productList = listOf(),
+                isProductsLoading = false,
+                onFetchProducts = {
+
+                }
+            )
+        }
+    }
 }

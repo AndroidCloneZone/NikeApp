@@ -16,6 +16,8 @@
     <string name="home_news_title">나이키 소식</string>
     <string name="home_top_view_all">모두보기</string>
 
+    <string name="shop_product_bestseller">베스트셀러</string>
+
     <string name="filter_title">필터</string>
 
     <string name="filter_sort_by">정렬 순서</string>
