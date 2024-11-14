@@ -36,7 +36,7 @@ import com.project.clonecoding.nike.designsystem.theme.white
  */
 @Composable
 fun BaseBottomNavBar(
-    navController: NavHostController,
+    navController: NavHostController = rememberNavController(),
     items: List<NavItem> = listOf(
         NavItem.Home,
         NavItem.Shop,
