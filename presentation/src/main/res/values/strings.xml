@@ -16,4 +16,40 @@
     <string name="home_news_title">나이키 소식</string>
     <string name="home_top_view_all">모두보기</string>
 
+    <string name="filter_title">Filter</string>
+
+    <string name="filter_sort_by">Sort By</string>
+    <string name="filter_gender">Gender</string>
+    <string name="filter_shop_by_price">Shop by Price</string>
+    <string name="filter_brand">Brand</string>
+
+    <string name="filter_sort_by_like">Like</string>
+    <string name="filter_sort_by_name">Name</string>
+    <string name="filter_sort_by_price_asc">Price: Low-High</string>
+    <string name="filter_sort_by_price_desc">Price: High-Low</string>
+
+    <string name="filter_gender_woman">Woman</string>
+    <string name="filter_gender_men">Men</string>
+    <string name="filter_gender_unisex">Unisex</string>
+
+    <string name="filter_price_minimum">Minimum Price</string>
+    <string name="filter_price_maximum">Maximum Price</string>
+
+    <string name="filter_category_all">All</string>
+    <string name="filter_category_beauty">Beauty</string>
+    <string name="filter_category_shoes">Shoes</string>
+    <string name="filter_category_top">Top</string>
+    <string name="filter_category_outer">Outer</string>
+    <string name="filter_category_pants">Pants</string>
+    <string name="filter_category_skirt">Skirt</string>
+    <string name="filter_category_bag">Bag</string>
+    <string name="filter_category_accessories">Accessories</string>
+    <string name="filter_category_underwear">Underwear</string>
+    <string name="filter_category_sportswear">Sportswear</string>
+    <string name="filter_category_digital">Digital</string>
+    <string name="filter_category_kids">Kids</string>
+
+    <string name="filter_price_unit">₩</string>
+    <string name="filter_apply">Apply</string>
+    <string name="filter_reset">Reset</string>
 </resources>
