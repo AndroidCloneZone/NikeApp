@@ -55,7 +55,7 @@ fun BaseBottomNavBar(
             NavigationBarItem(
                 selected = currentDestination?.route == item.route,
                 icon = {
-                    if(item.icon != null){
+                    if (item.icon != null) {
                         Icon(
                             modifier = Modifier.size(28.dp),
                             painter = painterResource(id = item.icon),
@@ -64,10 +64,16 @@ fun BaseBottomNavBar(
                     }
                 },
                 label = {
-                    if(item.strId != null){
+                    if (item.strId != null) {
+                        val style =
+                            if (currentDestination?.route == item.route) {
+                                nikeTypography.textXsBold
+                            } else {
+                                nikeTypography.textXsRegular
+                            }
                         Text(
                             text = stringResource(id = item.strId),
-                            style = nikeTypography.textXsRegular,
+                            style = style,
                         )
                     }
                 },
