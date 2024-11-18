@@ -59,4 +59,9 @@ dependencies {
     // Room
     implementation(libs.room)
     kapt(libs.room.compiler)
+
+    // retrofit2
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.okhttp3.logging.interceptor)
 }

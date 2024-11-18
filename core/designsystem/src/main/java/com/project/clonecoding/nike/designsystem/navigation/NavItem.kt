@@ -49,4 +49,12 @@ sealed class NavItem(
     data object HomeNewsDetail : NavItem(
         route = "home_news_detail"
     )
+
+    data object ProductFilter : NavItem(
+        route = "product_filter"
+    )
+
+    data object ShopCollection : NavItem(
+        route = "shop_product_list"
+    )
 }

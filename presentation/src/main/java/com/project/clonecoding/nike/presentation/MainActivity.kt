@@ -15,8 +15,12 @@ import androidx.navigation.compose.rememberNavController
 import com.project.clonecoding.nike.designsystem.navigation.NavItem
 import com.project.clonecoding.nike.designsystem.theme.NikeTheme
 import com.project.clonecoding.nike.presentation.home.HomeScreen
-import com.project.clonecoding.nike.presentation.home.screen.HomeNewsDetailScreen
 import com.project.clonecoding.nike.presentation.home.HomeViewModel
+import com.project.clonecoding.nike.presentation.home.screen.CollectionScreen
+import com.project.clonecoding.nike.presentation.home.screen.HomeNewsDetailScreen
+import com.project.clonecoding.nike.presentation.shop.ShopFilterScreen
+import com.project.clonecoding.nike.presentation.shop.ShopScreen
+import com.project.clonecoding.nike.presentation.shop.ShopViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +44,7 @@ private fun NavigationGraph(
     modifier: Modifier = Modifier
 ) {
     val homeViewModel = hiltViewModel<HomeViewModel>()
+    val shopViewModel = hiltViewModel<ShopViewModel>()
 
     NavHost(
         navController = navHostController,
@@ -61,8 +66,19 @@ private fun NavigationGraph(
         }
 
         composable(NavItem.Shop.route) {
-
+            ShopScreen(
+                navController = navHostController,
+                viewModel = shopViewModel
+            )
         }
+
+        composable(NavItem.ShopCollection.route) {
+            CollectionScreen(
+                navController = navHostController,
+                viewModel = shopViewModel
+            )
+        }
+
         composable(NavItem.Favorites.route) {
 
         }
@@ -71,6 +87,13 @@ private fun NavigationGraph(
         }
         composable(NavItem.Profile.route) {
 
+        }
+
+        composable(NavItem.ProductFilter.route) {
+            ShopFilterScreen(
+                navController = navHostController,
+                viewModel = shopViewModel
+            )
         }
     }
 }
